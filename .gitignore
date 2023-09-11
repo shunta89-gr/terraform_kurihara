@@ -1,0 +1,15 @@
+# Terraform ディレクトリの .terraform を除外
+**/.terraform/
+
+# Terraform ロックファイル
+.terraform.lock.hcl
+
+# Terraform 状態ファイル (ローカルバックエンドを使用する場合)
+*.tfstate
+*.tfstate.*
+
+# 変数を含む潜在的にセンシティブな情報を持つファイル
+*.tfvars
+
+# GCPのCredential
+json-key/*
