@@ -1,5 +1,5 @@
 # 新規にCloud Schedulerジョブを作成する
-resource "google_cloud_scheduler_job" "sample_scheduler_job" {
+resource "google_cloud_scheduler_job" "main" {
   name     = var.job_name
   schedule = var.job_schedule
 
