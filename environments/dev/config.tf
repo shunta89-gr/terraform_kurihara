@@ -15,17 +15,3 @@ provider "google" {
   region = "asia-northeast1" 
   zone = "asia-northeast1-a"
 }
-
-# ----------------
-# モジュール設定
-# ----------------
-
-# GCPサービス有効化
-module "google_project_service" {
-    source = "../../modules/gcp_enable_services"
-}
-
-# クラウドスケジューラー
-module "cloud_scheduler" {
-  source = "../../modules/cloud_scheduler"
-}
