@@ -1,0 +1,7 @@
+variable "gcp_service_list" {
+  description = "The list of apis necessary for the project"
+  type        = list(string)
+  default = [
+    "cloudscheduler.googleapis.com"
+  ]
+}
