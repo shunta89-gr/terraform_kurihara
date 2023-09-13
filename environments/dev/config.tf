@@ -6,6 +6,10 @@ terraform {
             version = "~>4.76.0" 
         }
     }
+    backend "gcs" {
+        bucket = "kenkoukazoku-tfstate-dev"
+        credentials = "../../json-key/dev-dbd-64657934cd92.json"
+    }
 }
 
 # プロバイダ設定
