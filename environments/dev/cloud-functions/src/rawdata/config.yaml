@@ -1,0 +1,12 @@
+projectId: dev-dbd
+bucketName: kenkoukazoku-rowdata
+targets:
+ - path: xxx
+   fileSearchPath: Marketo/{}
+   fieldDelimiter: ","
+   fileEncoding: "shift_JIS"
+   format: "%Y%m"
+   dataset: rawdata_marketo
+   tableName: marketo_
+   isMaster: false
+   schema: 
