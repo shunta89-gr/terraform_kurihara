@@ -19,3 +19,5 @@ json-key/*
 
 #python仮想環境
 venv/*
+
+*.zip
