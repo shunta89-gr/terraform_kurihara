@@ -30,13 +30,10 @@ class RawData:
     #  storage_client: cloud storageクライアント
     #  bucket_name : 検索するバケット名を指定する
     #  path :　検索するファイルパスを指定する
-    #  format :　日付のフォーマットを指定する(ex. %Y%m)
     #
     ##
-    def _get_file_name(self, storage_client, bucket_name, path, date_format):
-        search_path = path.format(Datelib.today(date_format))
-
-        blobs = storage_client.list_blobs(bucket_name, prefix=search_path, delimiter="/")
+    def _get_file_name(self, storage_client, bucket_name, path):
+        blobs = storage_client.list_blobs(bucket_name, prefix=path, delimiter="/")
 
         for blob in blobs:
             return blob.name
@@ -66,8 +63,8 @@ class RawData:
             return False
 
     ##
-    #
-    #
+    # __backup
+    # 概要：
     #
     #
     ##
@@ -98,7 +95,13 @@ class RawData:
     #   schema     :作成対象テーブルのスキーマをハッシュで指定
     ##
     def __create_table(self, bq_client, project_id, dataset, table_name, schemas):
+        dataset_id = "{project_id}.{dataset}".format(project_id=project_id, dataset=dataset)
         table_id = "{project_id}.{dataset}.{table_name}".format(project_id=project_id, dataset=dataset, table_name=table_name)
+        
+        dataset = bigquery.Dataset(dataset_id)
+        if not bq_client.get_dataset(dataset):
+            dataset = bq_client.create_dataset(dataset, timeout=30)
+        
         schema = []
         for buf in schemas:
             schema.append(bigquery.SchemaField(buf['name'], buf['type']))
@@ -109,12 +112,17 @@ class RawData:
         table = bq_client.create_table(table)
 
     ##
-    #
-    #
-    #
-    #
+    # __import_csv
+    # 概要：CSVファイルのデータをBigQueryにロードする
+    # 引数：
+    #   bq_client: BigQueryのクライアントインスタンス
+    #   bucket_name: データソースが置かれているバケット名
+    #   dataset: データをロードするBigQueryのデータセットを指定する
+    #   table_name: データをロードするBigQueryのテーブル名を指定する
+    #   file_path: データソースが置かれているファイルパス 
+    #   field_delimiter: ファイルのデータの区切り文字を指定。デフォルトカンマ区切り
     ##
-    def __import_csv(self, bq_client, bucket_name, dataset, table_name, file_name, field_delimiter):
+    def __import_csv(self, bq_client, bucket_name, dataset, table_name, file_path, field_delimiter=","):
         #BigQueryへデータロードするためのJob定義
         job_config = bigquery.LoadJobConfig()
         job_config.skip_leading_rows = 1
@@ -124,10 +132,10 @@ class RawData:
         dataset_ref = bq_client.dataset(dataset)
         table_ref = dataset_ref.table(table_name)
 
-        uri = "gs://{bucket_name}/{file_name}".format(bucket_name=bucket_name, file_name=file_name)
+        uri = "gs://{bucket_name}/{file_path}".format(bucket_name=bucket_name, file_path=file_path)
 
         # ファイルをBigQueryへロードする
-        load_job = bq_client.load_table_from_url(
+        load_job = bq_client.load_table_from_uri(
             uri,
             table_ref,
             job_config=job_config
@@ -136,42 +144,70 @@ class RawData:
 
     ##
     #
+    # __move_blob
+    # 
+    ##
+    def __move_blob(self, storage_client, bucket_name, blob_name, buckup_bucket_name):
+        source_bucket = storage_client.bucket(bucket_name)
+        source_blog = source_bucket.blob(blob_name)
+        destination_bucket = storage_client.bucket(buckup_bucket_name)
+        destination_blob_name = "{}/{}".format(Datelib.today("%Y%m%d%H%M%S"), blob_name)
+        destination_generation_match_precondition = 0
+        
+        blob_copy = source_bucket.copy_blob(
+            source_blog, destination_bucket, destination_blob_name, 
+            if_generation_match=destination_generation_match_precondition,
+        )
+        source_bucket.delete_blob(blob_name)
+        
+    ##
+    #
     # exec
     # 機能概要: このクラスの実行メソッド。
     # 引数:
-    #   target_date: 実行日を指定する。Nullの場合は、本日日付がデフォルトとなる
+    #   target_date: 実行日を指定する。Nullの場合は、本日日付がデフォルトとなる.yyyyMMdd形式で指定する
     ##
-    def exec(self, target_date):
-
+    def exec(self, target_date=''):
         #config.yamlより設定内容を読み込む
         with open('./rawdata/config.yaml', 'r', encoding="utf-8") as yml:
             config = yaml.safe_load(yml)
 
         project_id = config['projectId']
         bucket_name = config['bucketName']
+        backup_bucket_name = config['backupBucketName']
 
         bq_client = bigquery.Client(project=project_id)
         storage_client = storage.Client()
+        
+        cal_target_date=""
+        if not target_date:
+            cal_target_date = Datelib.today("%Y%m%d")
+        else:
+            cal_target_date = target_date
+
+        table_name_ymd=""
 
         #configのtargetsに設定されている内容を読み込む
         for target in config['targets']:
 
             file_search_path = target['fileSearchPath'] #データソースが置かれているファイルパス
-            date_format = target['format']
             field_delimiter = target['fieldDelimiter']
             dataset = target['dataset']
             table_name = target['tableName']
             is_master = target['isMaster']
             schema = target['schema']
 
-            file_name = self._get_file_name(storage_client, bucket_name, file_search_path, date_format)
+            # Cloud Storate上に指定したデータソースが存在するか確認する
+            file_name = self._get_file_name(storage_client, bucket_name, file_search_path)
 
             if not file_name is None:
                 if is_master:
-                    self.__backup(bq_client, project_id, dataset, table_name, target_date)
+                    self.__backup(bq_client, project_id, dataset, table_name, cal_target_date)
                     self.__create_table(bq_client, project_id, dataset, table_name, schema)
                     self.__import_csv(bq_client, bucket_name, dataset, table_name, file_name, field_delimiter)
                 else:
-                    self.__create_table(bq_client, project_id, dataset, table_name, schema)
-                    self.__import_csv(bq_client, bucket_name, dataset, table_name, file_name, field_delimiter)
-        
+                    table_name_ymd = "{table_name}_{ymd}".format(table_name=table_name, ymd=cal_target_date)
+                    self.__create_table(bq_client, project_id, dataset, table_name_ymd, schema)
+                    self.__import_csv(bq_client, bucket_name, dataset, table_name_ymd, file_name, field_delimiter)
+                    
+                self.__move_blob(storage_client, bucket_name, file_name, backup_bucket_name)

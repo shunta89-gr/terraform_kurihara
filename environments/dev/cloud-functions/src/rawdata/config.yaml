@@ -1,12 +1,16 @@
 projectId: dev-dbd
-bucketName: kenkoukazoku-rowdata
+bucketName: kenkoukazoku-rawdata
+backupBucketName: kenkoukazoku-rawdata-backup
 targets:
- - path: xxx
-   fileSearchPath: Marketo/{}
+ - path: test
+   fileSearchPath: test
    fieldDelimiter: ","
-   fileEncoding: "shift_JIS"
-   format: "%Y%m"
-   dataset: rawdata_marketo
-   tableName: marketo_
+   fileEncoding: "utf-8"
+   dataset: rawdata
+   tableName: test123
    isMaster: false
    schema: 
+    - name: test_id
+      type: STRING
+    - name: age
+      type: INTEGER
