@@ -8,9 +8,9 @@ module "cloud_functions" {
     function_region      = "asia-northeast1"
     function_name        = "kenkoukazoku-function"
     function_description = "rowデータの取り込み処理"
-    function_runtime     = "python3.11"
-    entry_point          = "hello"
+    function_runtime     = "python311"
+    entry_point          = "import_csv"
     function_memory      = "512M"
-    timeout_seconds      = 5400
+    timeout_seconds      = 3600
 
 }
