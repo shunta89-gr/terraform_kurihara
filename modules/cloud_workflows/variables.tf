@@ -6,25 +6,19 @@ variable "project_id" {
 variable "workflow_name" {
   description = "Workflowの名前"
   type        = string
-  default     = "kenkokazoku-workflow"
 }
 
 variable "workflow_sa_id" {
   description = "Workflow用サービスアカウントID"
-  default     = "kenkokazoku-workflow-executer"
+  type        = string
 }
 
 variable "workflow_sa_display_name" {
   description = "Workflow用サービスアカウントのディスプレイネーム"
-  default     = "Service Account for Workflow"
+  type        = string
 }
 
 variable "workflow_sa_roles" {
   description = "Workflow用サービスアカウントIDに割り当てるロール"
   type        = list(string)
-  default = [
-    // TODO:dataform、functions実行のための最小必要権限の追加
-    "roles/workflows.executions.create",
-    "roles/logging.logWriter"
-  ]
 }
