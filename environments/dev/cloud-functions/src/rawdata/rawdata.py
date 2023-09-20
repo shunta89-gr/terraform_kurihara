@@ -64,9 +64,13 @@ class RawData:
 
     ##
     # __backup
-    # 概要：
-    #
-    #
+    # 概要：マスターテーブルとして取り込むデータに関して、前回の取り込んだテーブルをバックアップしておく
+    # 引数:
+    #   bq_client: BigQueryクライアント
+    #   project_id: プロジェクトID
+    #   dataset: データセット
+    #   table_name: テーブル名
+    #   target_date: 実行日を指定する
     ##
     def __backup(self, bq_client, project_id, dataset, table_name, target_date):
 
@@ -81,7 +85,6 @@ class RawData:
 
                 bq_client.delete_table(table)
         except NotFound:
-            #ToDo テーブルが見つからない場合エラーとはしないがどのような処理にするか考える
             return None
     ##
     #
@@ -112,6 +115,7 @@ class RawData:
         table = bq_client.create_table(table)
 
     ##
+    #
     # __import_csv
     # 概要：CSVファイルのデータをBigQueryにロードする
     # 引数：
@@ -121,6 +125,7 @@ class RawData:
     #   table_name: データをロードするBigQueryのテーブル名を指定する
     #   file_path: データソースが置かれているファイルパス 
     #   field_delimiter: ファイルのデータの区切り文字を指定。デフォルトカンマ区切り
+    #
     ##
     def __import_csv(self, bq_client, bucket_name, dataset, table_name, file_path, field_delimiter=","):
         #BigQueryへデータロードするためのJob定義
@@ -145,7 +150,13 @@ class RawData:
     ##
     #
     # __move_blob
-    # 
+    # 概要: 取り込み終わったデータソースファイルを、バックアップする
+    # 引数:
+    #   storage_client: Cloud Storageクライアント
+    #   bucket_name: バケット名
+    #   blob_name: ファイルパス 
+    #   buckup_bucket_name: バックアップ先バケット名
+    #
     ##
     def __move_blob(self, storage_client, bucket_name, blob_name, buckup_bucket_name):
         source_bucket = storage_client.bucket(bucket_name)
