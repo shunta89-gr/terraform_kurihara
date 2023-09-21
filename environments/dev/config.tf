@@ -19,3 +19,9 @@ provider "google" {
   region = "asia-northeast1" 
   zone = "asia-northeast1-a"
 }
+
+provider "google-beta" {
+  credentials = file("../../json-key/dev-dbd-64657934cd92.json")
+  project = "dev-dbd"
+  region = "asia-northeast1" 
+}
