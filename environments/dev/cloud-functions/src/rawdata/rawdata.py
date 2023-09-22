@@ -77,10 +77,10 @@ class RawData:
         try:
             table_id = "{project_id}.{dataset}.{table_name}".format(project_id=project_id, dataset=dataset, table_name=table_name)
             table = bq_client.get_table(table_id)
-            buckup_table_id = "{project_id}.{backup_dataset}.{table_name}_{ymd}".format(project_id=project_id, backup_dataset=dataset, table_name=table_name, ymd=target_date)
+            backup_table_id = "{project_id}.{backup_dataset}.{table_name}_{ymd}".format(project_id=project_id, backup_dataset=dataset, table_name=table_name, ymd=target_date)
 
-            if not self.__already_exist_table_check(bq_client, buckup_table_id, False):
-                job = bq_client.copy_table(table, buckup_table_id)
+            if not self.__already_exist_table_check(bq_client, backup_table_id, False):
+                job = bq_client.copy_table(table, backup_table_id)
                 job.result()
 
                 bq_client.delete_table(table)
@@ -155,13 +155,13 @@ class RawData:
     #   storage_client: Cloud Storageクライアント
     #   bucket_name: バケット名
     #   blob_name: ファイルパス 
-    #   buckup_bucket_name: バックアップ先バケット名
+    #   backup_bucket_name: バックアップ先バケット名
     #
     ##
-    def __move_blob(self, storage_client, bucket_name, blob_name, buckup_bucket_name):
+    def __move_blob(self, storage_client, bucket_name, blob_name, backup_bucket_name):
         source_bucket = storage_client.bucket(bucket_name)
         source_blog = source_bucket.blob(blob_name)
-        destination_bucket = storage_client.bucket(buckup_bucket_name)
+        destination_bucket = storage_client.bucket(backup_bucket_name)
         destination_blob_name = "{}/{}".format(Datelib.today("%Y%m%d%H%M%S"), blob_name)
         destination_generation_match_precondition = 0
         
