@@ -9,5 +9,5 @@ module "cloud_scheduler" {
   scheduler_sa_roles = [
     "roles/workflows.invoker"
   ]
-  target_workflow_name = "kenkokazoku-workflow"
+  target_workflow_name = module.cloud_workflow.workflow_name
 }
