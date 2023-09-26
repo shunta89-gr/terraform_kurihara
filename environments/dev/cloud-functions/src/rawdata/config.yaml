@@ -1,0 +1,16 @@
+projectId: dev-dbd
+bucketName: kenkoukazoku-rawdata
+backupBucketName: kenkoukazoku-rawdata-backup
+targets:
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: rawdata
+   tableName: test123
+   isMaster: false
+   schema: 
+    - name: test_id
+      type: STRING
+    - name: age
+      type: INTEGER
