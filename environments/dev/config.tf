@@ -16,9 +16,15 @@ terraform {
 # プロバイダ設定
 provider "google" {
   credentials = file("../../json-key/dev-dbd-64657934cd92.json")
-  project     = var.project_id
-  region      = "asia-northeast1"
-  zone        = "asia-northeast1-a"
+  project = var.project_id
+  region = "asia-northeast1" 
+  zone = "asia-northeast1-a"
+}
+
+provider "google-beta" {
+  credentials = file("../../json-key/dev-dbd-64657934cd92.json")
+  project = "dev-dbd"
+  region = "asia-northeast1" 
 }
 
 variable "project_id" {
