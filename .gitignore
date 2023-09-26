@@ -16,3 +16,11 @@ json-key/*
 
 # githubのトークン
 github-token/*
+
+#General
+.DS_Store
+
+#python仮想環境
+venv/*
+
+*.zip
