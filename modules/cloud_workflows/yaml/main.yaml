@@ -1,8 +1,0 @@
-# TODO:WorkFlowの内容書き換え必要
-- getCurrentTime:
-    call: http.get
-    args:
-        url: "https://www.example.com/time"
-    result: currentTime
-- returnOutput:
-    return: "Sample Output"
