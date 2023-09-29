@@ -3,83 +3,31 @@ main:
     steps:
     # 初期設定ステップ
     - init:
-        # TODO:PROJECT_ID, REPOSITORY_LOCATION, REPOSITORY_ID は変数で渡す
         assign:
-        - repository: projects/PROJECT_ID/locations/REPOSITORY_LOCATION/repositories/REPOSITORY_ID
-        # ログ出力
-        - logInit:
-            call: sys.log
-            args:
-                text: "初期設定が完了しました。次のステップに進みます。"
+        - repository: projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}
 
     # Cloud Function の実行ステップ
     - callCloudFunction:
-        call: http.post
+        call: http.get
         args:
-            # TODO:Cloud Function Endpointは変数で渡す？
-            url: "YOUR_CLOUD_FUNCTION_ENDPOINT_URL"
+            url: "${CLOUD_FUNCTION_ENDPOINT_URL}"
             auth:
-                type: OAuth2
-        # ログ出力
-        - logFunctionSuccess:
-            call: sys.log
-            args:
-                text: "Cloud Functionが正常に実行されました。"
-        onError:
-            - logFunctionError:
-                call: sys.log
-                args:
-                    text: "Cloud Functionの実行中にエラーが発生しました。詳細は関数のログを確認してください。"
-        result: functionResult
-
+                type: OIDC
     # Dataform のコンパイル処理
+    #TODO: Dataform実装後に呼び出しできるかの確認
     - createCompilationResult:
         call: http.post
         args:
-            url: ${"https://dataform.googleapis.com/v1beta1/" + repository + "/compilationResults"}
-            auth:
-                type: OAuth2
+            url: "https://dataform.googleapis.com/v1beta1/projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}/compilationResults"
             body:
                 gitCommitish: GIT_COMMITISH
-        # ログ出力
-        - logCompileSuccess:
-            call: sys.log
-            args:
-                text: "Dataformのコンパイルが正常に完了しました。"
-        onError:
-            - logCompileError:
-                call: sys.log
-                args:
-                    text: "Dataformのコンパイル中にエラーが発生しました。"
         result: compilationResult
 
     # Dataform ワークフローの実行処理
+    #TODO: Dataform実装後に呼び出しできるかの確認
     - createWorkflowInvocation:
         call: http.post
         args:
-            # TODO:dataform URLは
-            url: ${"https://dataform.googleapis.com/v1beta1/" + repository + "/workflowInvocations"}
-            auth:
-                type: OAuth2
+            url: "https://dataform.googleapis.com/v1beta1/projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}/workflowInvocations"
             body:
-                compilationResult: ${compilationResult.body.name}
-        # ログ出力
-        - logWorkflowSuccess:
-            call: sys.log
-            args:
-                text: "Dataformワークフローが正常に実行されました。"
-        onError:
-            - logWorkflowError:
-                call: sys.log
-                args:
-                    text: "Dataformワークフローの実行中にエラーが発生しました。"
-        result: workflowInvocation
-
-    # ワークフローの完了ステップ
-    - complete:
-        # ワークフロー完了のログ出力
-        - logCompletion:
-            call: sys.log
-            args:
-                text: "ワークフローが完了しました。"
-        return: ${workflowInvocation.body.name}
+                compilationResult: "$${compilationResult.body.name}"
