@@ -12,5 +12,8 @@ targets:
    schema: 
     - name: test_id
       type: STRING
+      mode: REQUIRED
     - name: age
       type: INTEGER
+      mode: NULLABLE
+      
