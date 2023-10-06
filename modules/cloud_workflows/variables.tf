@@ -22,3 +22,8 @@ variable "workflow_sa_roles" {
   description = "Workflow用サービスアカウントIDに割り当てるロール"
   type        = list(string)
 }
+
+variable "workflow_definition" {
+  description = "ワークフローの定義内容"
+  type        = string
+}
