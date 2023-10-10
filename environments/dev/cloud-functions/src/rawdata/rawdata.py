@@ -107,7 +107,7 @@ class RawData:
         
         schema = []
         for buf in schemas:
-            schema.append(bigquery.SchemaField(buf['name'], buf['type']))
+            schema.append(bigquery.SchemaField(buf['name'], buf['type'], buf['mode']))
 
         table = bigquery.Table(table_id, schema)
         self.__already_exist_table_check(bq_client, table_id, True)
