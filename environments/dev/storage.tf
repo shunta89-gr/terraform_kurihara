@@ -9,3 +9,9 @@ module "data-sorce-backup-bucket" {
     storage_name = "kenkoukazoku-rawdata-backup"
     location = "asia-northeast1"
 }
+
+module "functions-bucket" {
+    source = "../../modules/cloud_storage"
+    storage_name = "kenkoukazoku-function-dev"
+    location = "asia-northeast1"
+}
