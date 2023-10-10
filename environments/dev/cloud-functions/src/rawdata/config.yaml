@@ -6,14 +6,472 @@ targets:
    fileSearchPath: test
    fieldDelimiter: ","
    fileEncoding: "utf-8"
-   dataset: rawdata
-   tableName: test123
-   isMaster: false
+   dataset: common_space
+   tableName: customer_master
+   isMaster: true
    schema: 
-    - name: test_id
+    - name: customer_id
       type: STRING
       mode: REQUIRED
+    - name: gender
+      type: STRING
+      mode: NULLABLE
     - name: age
       type: INTEGER
       mode: NULLABLE
-      
+    - name: prefecture
+      type: STRING
+      mode: NULLABLE
+    - name: media_id
+      type: STRING
+      mode: NULLABLE
+    - name: registration_date
+      type: DATE
+      mode: NULLABLE
+    - name: birth_date
+      type: DATE
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: product_master
+   isMaster: true
+   schema: 
+    - name: product_id
+      type: STRING
+      mode: REQUIRED
+    - name: product_num
+      type: STRING
+      mode: NULLABLE
+    - name: product_name
+      type: STRING
+      mode: NULLABLE
+    - name: price
+      type: FLOAT
+      mode: NULLABLE
+    - name: product_kinds
+      type: STRING
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: old_media_master
+   isMaster: true
+   schema: 
+    - name: media_id
+      type: STRING
+      mode: REQUIRED
+    - name: media_name
+      type: STRING
+      mode: NULLABLE
+    - name: ad_series
+      type: STRING
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: unsubscribe_info
+   isMaster: false
+   schema: 
+    - name: customer_id
+      type: STRING
+      mode: REQUIRED
+    - name: unsubscribe_date
+      type: DATE
+      mode: NULLABLE
+    - name: product_id
+      type: STRING
+      mode: NULLABLE
+    - name: reason
+      type: STRING
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: customer_sales_master
+   isMaster: true
+   schema: 
+    - name: customer_id
+      type: STRING
+      mode: REQUIRED
+    - name: total_sales
+      type: FLOAT
+      mode: NULLABLE
+    - name: total_tax
+      type: FLOAT
+      mode: NULLABLE
+    - name: total_others
+      type: FLOAT
+      mode: NULLABLE
+    - name: total_buy_count
+      type: INTEGER
+      mode: NULLABLE
+    - name: first_send_date
+      type: STRING
+      mode: NULLABLE
+    - name: first_send_month
+      type: STRING
+      mode: NULLABLE
+    - name: last_send_date
+      type: STRING
+      mode: NULLABLE
+    - name: last_send_month
+      type: STRING
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: customer_product_sales_master
+   isMaster: true
+   schema: 
+    - name: customer_id
+      type: STRING
+      mode: REQUIRED
+    - name: product_id
+      type: STRING
+      mode: REQUIRED
+    - name: total_sales
+      type: FLOAT
+      mode: NULLABLE
+    - name: total_tax
+      type: FLOAT
+      mode: NULLABLE
+    - name: total_others
+      type: FLOAT
+      mode: NULLABLE
+    - name: total_buy_count
+      type: INTEGER
+      mode: NULLABLE
+    - name: total_product_count
+      type: INTEGER
+      mode: NULLABLE
+    - name: first_send_date
+      type: STRING
+      mode: NULLABLE
+    - name: first_send_month
+      type: STRING
+      mode: NULLABLE
+    - name: last_send_date
+      type: STRING
+      mode: NULLABLE
+    - name: last_send_month
+      type: STRING
+      mode: NULLABLE
+    - name: sub_start_date
+      type: STRING
+      mode: NULLABLE
+    - name: sub_start_month
+      type: STRING
+      mode: NULLABLE
+    - name: sub_end_date
+      type: STRING
+      mode: NULLABLE
+    - name: sub_end_month
+      type: STRING
+      mode: NULLABLE
+    - name: first_sub_start_date
+      type: STRING
+      mode: NULLABLE
+    - name: first_sub_start_month
+      type: STRING
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: sales_data
+   isMaster: false
+   schema: 
+    - name: customer_id
+      type: STRING
+      mode: REQUIRED
+    - name: dempyo_id
+      type: STRING
+      mode: REQUIRED
+    - name: send_date
+      type: DATE
+      mode: NULLABLE
+    - name: send_month
+      type: STRING
+      mode: NULLABLE
+    - name: subtotal
+      type: FLOAT
+      mode: NULLABLE
+    - name: tax
+      type: FLOAT
+      mode: NULLABLE
+    - name: shipping_fee
+      type: FLOAT
+      mode: NULLABLE
+    - name: cash_on_delivery
+      type: FLOAT
+      mode: NULLABLE
+    - name: others
+      type: FLOAT
+      mode: NULLABLE
+    - name: total
+      type: FLOAT
+      mode: NULLABLE
+    - name: payment_code
+      type: STRING
+      mode: NULLABLE
+    - name: discount
+      type: FLOAT
+      mode: NULLABLE
+    - name: order_code
+      type: STRING
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: sales_meisai_data
+   isMaster: false
+   schema: 
+    - name: dempyo_id
+      type: STRING
+      mode: REQUIRED
+    - name: row_num
+      type: INTEGER
+      mode: REQUIRED
+    - name: cycle
+      type: STRING
+      mode: NULLABLE
+    - name: product_id
+      type: STRING
+      mode: NULLABLE
+    - name: quantity
+      type: INTEGER
+      mode: NULLABLE
+    - name: service_code
+      type: STRING
+      mode: NULLABLE
+    - name: unit_price
+      type: FLOAT
+      mode: NULLABLE
+    - name: total
+      type: FLOAT
+      mode: NULLABLE
+    - name: tax
+      type: FLOAT
+      mode: NULLABLE
+    - name: shipping_fee
+      type: FLOAT
+      mode: NULLABLE
+    - name: others
+      type: FLOAT
+      mode: NULLABLE
+    - name: discount
+      type: FLOAT
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: tv_response_data
+   isMaster: false
+   schema: 
+    - name: year_month
+      type: STRING
+      mode: REQUIRED
+    - name: product_name
+      type: STRING
+      mode: REQUIRED
+    - name: material_code
+      type: STRING
+      mode: NULLABLE
+    - name: material_memo
+      type: STRING
+      mode: NULLABLE
+    - name: offer_message
+      type: STRING
+      mode: NULLABLE
+    - name: area
+      type: STRING
+      mode: REQUIRED
+    - name: kyoku
+      type: STRING
+      mode: NULLABLE
+    - name: keiretsu
+      type: STRING
+      mode: NULLABLE
+    - name: on_airdate
+      type: DATE
+      mode: NULLABLE
+    - name: day_of_week
+      type: STRING
+      mode: NULLABLE
+    - name: start_time
+      type: TIME
+      mode: NULLABLE
+    - name: end_time
+      type: TIME
+      mode: NULLABLE
+    - name: time_length
+      type: FLOAT
+      mode: NULLABLE
+    - name: ad_amount
+      type: FLOAT
+      mode: NULLABLE
+    - name: new_nonsubscription_num
+      type: INTEGER
+      mode: NULLABLE
+    - name: new_nonsubscription_amount
+      type: FLOAT
+      mode: NULLABLE
+    - name: new_subscription_num
+      type: INTEGER
+      mode: NULLABLE
+    - name: new_subscription_amount
+      type: FLOAT
+      mode: NULLABLE
+    - name: exist_nonsubscription_num
+      type: INTEGER
+      mode: NULLABLE
+    - name: exist_nonsubscription_amount
+      type: FLOAT
+      mode: NULLABLE
+    - name: exist_subscription_num
+      type: INTEGER
+      mode: NULLABLE
+    - name: exist_subscription_amount
+      type: FLOAT
+      mode: NULLABLE
+    - name: new_sample_num
+      type: INTEGER
+      mode: NULLABLE
+    - name: exist_sample_num
+      type: INTEGER
+      mode: NULLABLE
+    - name: other_num
+      type: INTEGER
+      mode: NULLABLE
+    - name: response_num
+      type: INTEGER
+      mode: NULLABLE
+    - name: purchase_num
+      type: INTEGER
+      mode: NULLABLE
+    - name: subscription_rate
+      type: FLOAT
+      mode: NULLABLE
+    - name: new_subscription_rate
+      type: FLOAT
+      mode: NULLABLE
+    - name: cpo
+      type: FLOAT
+      mode: NULLABLE
+    - name: cpr
+      type: FLOAT
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: customer_stage_master
+   isMaster: true
+   schema: 
+    - name: customer_id
+      type: STRING
+      mode: REQUIRED
+    - name: stage_code
+      type: INTEGER
+      mode: NULLABLE
+    - name: stage_title
+      type: STRING
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: dormant_customer
+   isMaster: false
+   schema: 
+    - name: customer_id
+      type: STRING
+      mode: REQUIRED
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: media_master
+   isMaster: true
+   schema: 
+    - name: media_id
+      type: STRING
+      mode: REQUIRED
+    - name: media_name
+      type: STRING
+      mode: NULLABLE
+    - name: ad_series
+      type: STRING
+      mode: NULLABLE
+    - name: area
+      type: STRING
+      mode: NULLABLE
+    - name: ad_amount
+      type: FLOAT
+      mode: NULLABLE
+    - name: copy_num
+      type: INTEGER
+      mode: NULLABLE
+    - name: ad_date
+      type: DATE
+      mode: NULLABLE
+    - name: start_time
+      type: TIME
+      mode: NULLABLE
+    - name: end_time
+      type: TIME
+      mode: NULLABLE
+    - name: program_name
+      type: STRING
+      mode: NULLABLE
+    - name: time_length
+      type: STRING
+      mode: NULLABLE
+    - name: ad_product
+      type: STRING
+      mode: NULLABLE
+    - name: genkou_id
+      type: STRING
+      mode: NULLABLE
+    - name: offer_message
+      type: STRING
+      mode: NULLABLE
+ - path: test
+   fileSearchPath: test
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: dempyo_send_data
+   isMaster: false
+   schema: 
+    - name: customer_id
+      type: STRING
+      mode: REQUIRED
+    - name: dempyo_id
+      type: STRING
+      mode: REQUIRED
+    - name: send_date
+      type: DATE
+      mode: NULLABLE
+    - name: media_id
+      type: STRING
+      mode: NULLABLE
