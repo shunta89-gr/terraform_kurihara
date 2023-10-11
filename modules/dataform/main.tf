@@ -33,7 +33,7 @@ resource "google_dataform_repository" "repository" {
   # 暫定対応：GCP REST APIでホストのSSH公開鍵の設定する
   provisioner "local-exec" {
     command = <<EOF
-    export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=${var.credentials_path} &&
+    GOOGLE_APPLICATION_CREDENTIALS=${var.credentials_path} &&
     curl https://dataform.googleapis.com/v1beta1/projects/${var.project_id}/locations/${var.location}/repositories/${var.dataform_name} \
         -X PATCH \
         -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
