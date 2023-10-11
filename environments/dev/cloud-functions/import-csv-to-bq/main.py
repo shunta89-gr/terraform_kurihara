@@ -1,7 +1,7 @@
 import functions_framework
 from rawdata.rawdata import RawData
 
-def import_csv(cloud_event):
+def execute(cloud_event):
     target_date = ''
     request_args = cloud_event.args
     request_json = cloud_event.get_json(silent=True)

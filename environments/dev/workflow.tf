@@ -5,7 +5,7 @@ data "template_file" "workflow_template" {
     PROJECT_ID                  = var.project_id
     REPOSITORY_LOCATION         = var.region
     REPOSITORY_ID               = module.dataform.dataform_repository_id
-    CLOUD_FUNCTION_ENDPOINT_URL = module.cloud_functions.function_uri
+    CLOUD_FUNCTION_ENDPOINT_URL = module.import_csv_to_bq.function_uri
     GIT_COMMITISH               = "main"
   }
 }

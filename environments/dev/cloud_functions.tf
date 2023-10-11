@@ -1,15 +1,15 @@
-module "cloud_functions" {
+module "import_csv_to_bq" {
     source = "../../modules/cloud_functions"
     
-    source_dir           = "./cloud-functions/src"
-    output_path          = "./cloud-functions/src.zip"
+    source_dir           = "./cloud-functions/import-csv-to-bq"
+    output_path          = "./cloud-functions/import-csv-to-bq.zip"
     bucket_name          = module.functions-bucket.bucket_name
     bucket_region        = var.region
     function_region      = var.region
-    function_name        = "kenkoukazoku-function"
+    function_name        = "import-csv-to-bq"
     function_description = "rowデータの取り込み処理"
     function_runtime     = "python311"
-    entry_point          = "import_csv"
+    entry_point          = "execute"
     function_memory      = "512M"
     timeout_seconds      = 3600
 
