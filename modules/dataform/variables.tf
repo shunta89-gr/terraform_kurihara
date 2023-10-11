@@ -2,11 +2,19 @@ variable "project_id" {
     type = string
 }
 
+variable "location" {
+  type        = string
+}
+
 variable "dataform_name" {
     type = string
 }
 
 variable "github_url" {
+    type = string
+}
+
+variable "github_public_key" {
     type = string
 }
 
@@ -31,5 +39,9 @@ variable "dataform_sa_id" {
 }
 
 variable "dataform_sa_display_name" {
+    type = string
+}
+
+variable "credentials_path" {
     type = string
 }

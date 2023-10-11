@@ -17,14 +17,14 @@ terraform {
 provider "google" {
   credentials = file("../../json-key/dev-dbd-64657934cd92.json")
   project = var.project_id
-  region = "asia-northeast1" 
-  zone = "asia-northeast1-a"
+  region = var.region
+  zone = "${var.region}-a"
 }
 
 provider "google-beta" {
   credentials = file("../../json-key/dev-dbd-64657934cd92.json")
-  project = "dev-dbd"
-  region = "asia-northeast1" 
+  project = var.project_id
+  region = var.region
 }
 
 variable "project_id" {
