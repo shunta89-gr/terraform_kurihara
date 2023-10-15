@@ -27,6 +27,23 @@ module "data_cleansing" {
     function_description = "データクレンジング処理"
     function_runtime     = "python311"
     entry_point          = "execute"
+    function_memory      = "32G"
+    timeout_seconds      = 3600
+
+}
+
+module "unzip" {
+    source = "../../modules/cloud_functions"
+    
+    source_dir           = "./cloud-functions/unzip"
+    output_path          = "./cloud-functions/unzip.zip"
+    bucket_name          = module.functions-bucket.bucket_name
+    bucket_region        = var.region
+    function_region      = var.region
+    function_name        = "unzip"
+    function_description = "zip解凍処理"
+    function_runtime     = "python311"
+    entry_point          = "execute"
     function_memory      = "16G"
     timeout_seconds      = 3600
 
