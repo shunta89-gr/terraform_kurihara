@@ -25,15 +25,18 @@ def unzip(file_name, zip_encoding='utf-8'):
             info.filename = info.orig_filename.encode('CP437').decode(zip_encoding)
             if os.sep != "/" and os.sep in info.filename:
                 info.filename = info.filename.replace(os.sep, "/")
+            print(info.filename)
             z.extract(info,'/tmp/')
         
-        if os.path.isdir(z.infolist()[0].filename):
+        buf = z.infolist()[0].filename.split('/')
+        if '.csv' not in buf[0]:
             return '/tmp/'+z.infolist()[0].filename
         else:
             return '/tmp/'
 
 def upload_to_gcs(storage_client, bucket_name, unzip_dir):
     files = glob.glob(unzip_dir+'*.csv')
+    print(files)
     for f in files:
         bucket = storage_client.get_bucket(bucket_name)
         blob = bucket.blob(os.path.basename(f))
@@ -61,14 +64,21 @@ def execute(cloud_event):
     
     zip_file_name = gcs_search(storage_client, bucket_name)
     if zip_file_name is None:
-        return "対象のzipファイルが存在しませんでした", 200
-    
+        return "対象のzipファイルが存在しませんでした", 404
+    print("対象zipfile: {}".format(zip_file_name))
+    print("ダウンロード処理開始")
     download(storage_client, bucket_name, zip_file_name)
+    print("ダウンロード処理終了")
+    print("unzip処理開始")
     unzip_dir = unzip(zip_file_name, zip_encoding)
+    print("unzip処理終了 {}".format(unzip_dir))
+    print("アップロード処理開始")
     upload_to_gcs(storage_client, bucket_name, unzip_dir)
+    print("アップロード処理終了")
+    # os.remove('/tmp/'+zip_file_name)
+    # shutil.rmtree(unzip_dir)
+    # bucket = storage_client.bucket(bucket_name)
+    # blob = bucket.blob(zip_file_name)
+    # blob.delete()
     
-    os.remove('/tmp/'+zip_file_name)
-    shutil.rmtree(unzip_dir)
-    bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(zip_file_name)
-    blob.delete()
+    return "zip解凍処理完了",200
