@@ -1,5 +1,11 @@
 from google.cloud import bigquery, storage
+from google.cloud.storage.retry import DEFAULT_RETRY
 from util import Util
+import io
+import pandas as pd
+
+chunk_size = 10000
+_BACKOFF_DURATION = 200
 
 # gcsからファイルをダウンロード
 def download_file(storage_client, bucket_name, file_name, encoding):
@@ -17,19 +23,21 @@ def download_file(storage_client, bucket_name, file_name, encoding):
 
 # ファイルの変換処理
 def convert_file(file_path, delimiter=','):
-    buf_lines = []
-    with open(file_path, mode="r") as f:
-        for line in f:
+    chunks = pd.read_csv(file_path, chunksize=chunk_size, header=None, na_filter=False, dtype=str)
+    for chunk in chunks:
+        lines = []
+        for buf in chunk.to_numpy():
+            str_line = ",".join(buf)
             # 半角スペースの削除処理
-            buf = Util.remove_hankaku(line)
+            str_line = Util.remove_hankaku(str_line)
             # 先頭が下記条件に該当したら読み飛ばす
-            if Util.search(r'^(\r\n|\n|\r|------|顧客ID|商品ID|媒体コード|伝票番号|年月|媒体ID)+', buf) is not None:
+            if Util.search(r'^(\r\n|\n|\r|------|顧客ID|商品ID|媒体コード|伝票番号|年月|媒体ID)+', str_line) is not None:
                 continue
             # 半角全角を統一（英数→半角に統一、カタカナ→全角に統一）
-            buf = Util.convert_to_halfwidth(buf)
+            str_line = Util.convert_to_halfwidth(str_line)
             file_name = Util.get_filename_from_filepath(file_path)
             #各ファイル毎のクレンジング処理
-            buf_list = buf.split(delimiter)
+            buf_list = str_line.split(delimiter)
             if file_name == '顧客マスタ.csv':
                 # 日付の文字列で/を-に変換する
                 buf_list[5] = Util.change_date_delimiter(buf_list[5])
@@ -47,25 +55,39 @@ def convert_file(file_path, delimiter=','):
                 # オファーの金額文字列中のカンマを削除
                 buf_list[13] = Util.replace_matched_string(r"([0-9]{1}),([0-9]{3})円", "\\1\\2円", buf_list[13])
             
-            buf = ",".join(buf_lines)
-            buf_lines.append(buf)
+            str_line = ",".join(buf_list)
+            str_line = str_line + "\n"
+            lines.append(bytes(str_line,'utf-8'))
+        yield lines
 
-    # 前処理したデータをファイルに書き出す    
-    with open(file_path, 'w') as f:
-        f.writelines(buf_lines)
-    return
-
-#　元ファイルをGCSから削除する
-def remove_file_from_gcs(storage_client, bucket_name, blob_name):
-        bucket = storage_client.bucket(bucket_name)
-        bucket.delete_blob(blob_name)
-
-# 変換したファイルをgcsに戻す
-def upload_file_to_gcs(storage_client, bucket_name, file_name, local_file_path):
+# クレンジング処理したデータを一時的にGCSへ書き出す（アウトプットストリーム)
+def output_data_to_gcs(storage_client, bucket_name,file_path, file_name, delimiter=','):
+    file_obj = io.BytesIO()
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(file_name)
-    blob.upload_from_filename(local_file_path)
     
+    #upload_from_fileを複数回呼び出すとエラーとなるため、リトライ処理の定義を行う
+    modified_retry = DEFAULT_RETRY.with_deadline(_BACKOFF_DURATION)
+    for buf in convert_file(file_path, delimiter):
+        file_obj.writelines(buf)
+        file_obj.seek(0)
+        blob.upload_from_file(file_obj, retry=modified_retry)        
+    
+
+#　元ファイルをGCSから削除する
+def remove_file_from_gcs(storage_client, bucket_name, blob_name, destination_blob_name):
+        # 元ファイルを削除
+        bucket = storage_client.bucket(bucket_name)
+        destination_blob = bucket.blob(str(destination_blob_name))
+        destination_blob.delete()
+        # tempファイルを元ファイル名に修正
+        source_blob = bucket.blob(blob_name)
+        destination_generation_match_precondition = 0
+        bucket.copy_blob(source_blob, bucket, destination_blob_name, if_generation_match=destination_generation_match_precondition)
+        # tempファイルを削除
+        source_blob.delete()
+        
+
 def execute(cloud_event):
     #パラメータよりbucket_name, file_name, file-encodingを取得する
     request_args = cloud_event.args
@@ -87,8 +109,8 @@ def execute(cloud_event):
     storage_client = storage.Client()
     
     tmp_file_path = download_file(storage_client, bucket_name, file_name, file_encoding)
-    convert_file(tmp_file_path)
-    remove_file_from_gcs(storage_client, bucket_name, file_name)
-    upload_file_to_gcs(storage_client, bucket_name, file_name, tmp_file_path)
+    tmp_file_name = "tmp_"+file_name
+    output_data_to_gcs(storage_client, bucket_name, tmp_file_path, tmp_file_name)
+    remove_file_from_gcs(storage_client, bucket_name, tmp_file_name, file_name)
     
     return "completed successfully",200
