@@ -27,7 +27,7 @@ module "data_cleansing" {
     function_description = "データクレンジング処理"
     function_runtime     = "python311"
     entry_point          = "execute"
-    function_memory      = "32G"
+    function_memory      = "4G"
     timeout_seconds      = 3600
 
 }
@@ -44,7 +44,7 @@ module "unzip" {
     function_description = "zip解凍処理"
     function_runtime     = "python311"
     entry_point          = "execute"
-    function_memory      = "16G"
+    function_memory      = "512M"
     timeout_seconds      = 3600
 
 }
