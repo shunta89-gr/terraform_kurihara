@@ -44,7 +44,7 @@ module "unzip" {
     function_description = "zip解凍処理"
     function_runtime     = "python311"
     entry_point          = "execute"
-    function_memory      = "512M"
+    function_memory      = "2G"
     timeout_seconds      = 3600
 
 }
