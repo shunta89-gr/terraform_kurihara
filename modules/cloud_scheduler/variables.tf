@@ -37,3 +37,8 @@ variable "target_workflow_name" {
   description = "Schedulerで実行するWorkflowの名前"
   type        = string
 }
+
+variable "alert_channel_id" {
+  description = "Schedulerのアラートの通知チャンネルID"
+  type        = string
+}
