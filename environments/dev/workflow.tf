@@ -22,4 +22,5 @@ module "cloud_workflow" {
     "roles/logging.logWriter"
   ]
   workflow_definition = data.template_file.workflow_template.rendered
+  alert_channel_id    = module.notification_channel.notification_channel_id
 }
