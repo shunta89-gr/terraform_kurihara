@@ -4,15 +4,38 @@ main:
     # 初期設定ステップ
     - init:
         assign:
-        - repository: projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}
-
-    # Cloud Function の実行ステップ
+            - repository: projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}
+            - files: ${files}
+    # Cloud Function unzipの実行ステップ
+    - callUnzipFunction:
+        call: http.get
+        args:
+            url: "${UNZIP_FUNCTION_URL}?bucket_name=${UNZIP_BUCKET}&zip_encodig=${UNZIP_ENCODING}"
+            auth:
+                type: OIDC
+                audience: "${UNZIP_FUNCTION_URL}"
+    # Cloud Function データクレンジングの実行ステップ
+    - callCleansingFunction:
+        parallel:
+            for:
+                value: file_name
+                in: ${val_files}
+                steps:
+                    - cleaningfile:
+                        call: http.get
+                        args:
+                            url: ${dollar}{"${CLEANSING_FUNCTION_URL}?bucket_name=${UNZIP_BUCKET}&file_name="+file_name+"&file_encoding=${FILE_ENCODING}"}
+                            auth:
+                                type: OIDC
+                                audience: "${CLEANSING_FUNCTION_URL}"
+    # Cloud Function import_csv_to_bqの実行ステップ
     - callCloudFunction:
         call: http.get
         args:
             url: "${CLOUD_FUNCTION_ENDPOINT_URL}"
             auth:
                 type: OIDC
+                audience: "${CLOUD_FUNCTION_ENDPOINT_URL}"
     # Dataform のコンパイル処理
     #TODO: Dataform実装後に呼び出しできるかの確認
     - createCompilationResult:
