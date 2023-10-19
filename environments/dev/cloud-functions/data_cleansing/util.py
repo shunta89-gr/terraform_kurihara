@@ -19,7 +19,7 @@ class Util:
     @staticmethod
     def modify_year(text):
         JST = timezone(timedelta(hours=+9), 'JST')
-        now_yy = datetime.datetime.now(JST).strftime("%y")
+        now_yy = datetime.now(JST).strftime("%y")
         source_yy = text[:2]
         if int(now_yy) >= int(source_yy):
             return "20" + text
@@ -31,9 +31,9 @@ class Util:
         delimiter_count = text.count(":")
         
         if delimiter_count == 1:
-            tt = datetime.datetime.strptime(text, "%H:%M")
+            tt = datetime.strptime(text, "%H:%M")
         elif delimiter_count == 2:
-            tt = datetime.datetime.strptime(text, "%H:%M:%S")
+            tt = datetime.strptime(text, "%H:%M:%S")
         else:
             return "00:00:00"
         
