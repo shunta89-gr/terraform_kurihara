@@ -29,7 +29,7 @@ module "data_cleansing" {
     entry_point          = "execute"
     function_memory      = "4G"
     timeout_seconds      = 3600
-
+    max_instance_count   = 11 #クレンジングするファイル数と同じにする
 }
 
 module "unzip" {

@@ -42,7 +42,7 @@ resource "google_cloudfunctions2_function" "function" {
     }
     
     service_config {
-        max_instance_count  = 1
+        max_instance_count  = var.max_instance_count
         available_memory    = var.function_memory
         timeout_seconds     = var.timeout_seconds
     }
