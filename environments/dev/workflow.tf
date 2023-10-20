@@ -19,6 +19,8 @@ data "template_file" "workflow_template" {
     files                       = "[\"顧客マスタ.csv\",\"商品マスタ.csv\",\"退会データ.csv\",\"顧客売上マスタ.csv\",\"顧客商品別売上マスタ.csv\",\"売掛データ.csv\",\"売掛明細データ.csv\",\"顧客ステージマスタ.csv\",\"顧客休眠マスタ.csv\",\"媒体マスタ.csv\",\"発送実績データ.csv\"]"
     dollar                      = "${local.dollar}"
     val_files                   = "${local.dollar}{files}"
+    tables                      = "[\"customer_master\",\"product_master\",\"unsubscribe_info\",\"customer_sales_master\",\"customer_product_sales_master\",\"sales_data\",\"sales_meisai_data\",\"customer_stage_master\",\"dormant_customer\",\"media_master\",\"dempyo_send_data\"]"
+    val_tables                  = "${local.dollar}{tables}"
   }
 }
 

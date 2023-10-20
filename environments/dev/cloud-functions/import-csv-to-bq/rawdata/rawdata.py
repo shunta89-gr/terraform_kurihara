@@ -101,9 +101,9 @@ class RawData:
         dataset_id = "{project_id}.{dataset}".format(project_id=project_id, dataset=dataset)
         table_id = "{project_id}.{dataset}.{table_name}".format(project_id=project_id, dataset=dataset, table_name=table_name)
         
-        dataset = bigquery.Dataset(dataset_id)
-        if not bq_client.get_dataset(dataset):
-            dataset = bq_client.create_dataset(dataset, timeout=30)
+        dataset = self.__exsist_dataset(bq_client, dataset_id)
+        if dataset is None:
+            dataset = self.__create_dataset(bq_client, dataset_id)
         
         schema = []
         for buf in schemas:
@@ -113,6 +113,17 @@ class RawData:
         self.__already_exist_table_check(bq_client, table_id, True)
 
         table = bq_client.create_table(table)
+
+    def __exsist_dataset(self,bq_client, dataset_id):
+        try:
+            return bq_client.get_dataset(dataset_id)
+        except NotFound:
+            return None
+    
+    def __create_dataset(self, bq_client, dataset_id):
+        dataset = bigquery.Dataset(dataset_id)
+        dataset.location = "asia-northeast1"
+        return bq_client.create_dataset(dataset, timeout=30)
 
     ##
     #
@@ -130,7 +141,7 @@ class RawData:
     def __import_csv(self, bq_client, bucket_name, dataset, table_name, file_path, field_delimiter=","):
         #BigQueryへデータロードするためのJob定義
         job_config = bigquery.LoadJobConfig()
-        job_config.skip_leading_rows = 1
+        job_config.skip_leading_rows = 0
         job_config.field_delimiter = field_delimiter
         job_config.source_format = bigquery.SourceFormat.CSV
 
@@ -178,7 +189,8 @@ class RawData:
     # 引数:
     #   target_date: 実行日を指定する。Nullの場合は、本日日付がデフォルトとなる.yyyyMMdd形式で指定する
     ##
-    def exec(self, target_date=''):
+    def exec(self, target_date, target_table):
+        
         #config.yamlより設定内容を読み込む
         with open('./rawdata/config.yaml', 'r', encoding="utf-8") as yml:
             config = yaml.safe_load(yml)
@@ -201,24 +213,29 @@ class RawData:
         #configのtargetsに設定されている内容を読み込む
         for target in config['targets']:
 
-            file_search_path = target['fileSearchPath'] #データソースが置かれているファイルパス
-            field_delimiter = target['fieldDelimiter']
-            dataset = target['dataset']
-            table_name = target['tableName']
-            is_master = target['isMaster']
-            schema = target['schema']
+            if target_table == target['path']:
+                file_search_path = target['fileSearchPath'] #データソースが置かれているファイルパス
+                field_delimiter = target['fieldDelimiter']
+                dataset = target['dataset']
+                table_name = target['tableName']
+                is_master = target['isMaster']
+                schema = target['schema']
 
-            # Cloud Storate上に指定したデータソースが存在するか確認する
-            file_name = self._get_file_name(storage_client, bucket_name, file_search_path)
+                # Cloud Storate上に指定したデータソースが存在するか確認する
+                file_name = self._get_file_name(storage_client, bucket_name, file_search_path)
 
-            if not file_name is None:
-                if is_master:
-                    self.__backup(bq_client, project_id, dataset, table_name, cal_target_date)
-                    self.__create_table(bq_client, project_id, dataset, table_name, schema)
-                    self.__import_csv(bq_client, bucket_name, dataset, table_name, file_name, field_delimiter)
+                if not file_name is None:
+                    if is_master:
+                        self.__backup(bq_client, project_id, dataset, table_name, cal_target_date)
+                        self.__create_table(bq_client, project_id, dataset, table_name, schema)
+                        self.__import_csv(bq_client, bucket_name, dataset, table_name, file_name, field_delimiter)
+                    else:
+                        table_name_ymd = "{table_name}_{ymd}".format(table_name=table_name, ymd=cal_target_date)
+                        self.__create_table(bq_client, project_id, dataset, table_name_ymd, schema)
+                        self.__import_csv(bq_client, bucket_name, dataset, table_name_ymd, file_name, field_delimiter)
+                        
+                    self.__move_blob(storage_client, bucket_name, file_name, backup_bucket_name)
                 else:
-                    table_name_ymd = "{table_name}_{ymd}".format(table_name=table_name, ymd=cal_target_date)
-                    self.__create_table(bq_client, project_id, dataset, table_name_ymd, schema)
-                    self.__import_csv(bq_client, bucket_name, dataset, table_name_ymd, file_name, field_delimiter)
-                    
-                self.__move_blob(storage_client, bucket_name, file_name, backup_bucket_name)
+                    print("ファイル[{}]が存在しませんでした。".format(file_search_path))
+                
+                break

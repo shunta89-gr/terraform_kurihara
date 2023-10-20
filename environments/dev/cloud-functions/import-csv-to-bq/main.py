@@ -1,18 +1,24 @@
-import functions_framework
 from rawdata.rawdata import RawData
 
 def execute(cloud_event):
-    target_date = ''
+    #パラメータよりbucket_name, file_name, file-encodingを取得する
     request_args = cloud_event.args
     request_json = cloud_event.get_json(silent=True)
-    
-    if request_args and 'target_date' in request_args:
-        target_date = request_args.get('target_date')
-    elif request_json and 'target_date' in request_json:
-        target_date = request_json.get('target_date')
+    target_date = ''
+    if 'target_table' in request_args:
+        target_table = request_args.get('target_table')
+        if 'target_date' in request_args:
+            target_date = request_args.get('target_date')
+    elif 'target_table' in request_json:
+        bucket_name = request_json.get('bucket_name')
+        file_name = request_json.get('file_name')
+        target_table = request_json.get('target_table')
+        if 'target_date' in request_json:
+            target_date = request_json.get('target_date')        
     else:
-        target_date = ''
+        return "パラメータの指定に誤りがあります", 400
+    
     print("---- target_date = {}".format(target_date))
     rawdata = RawData()
-    rawdata.exec(target_date)
-    return ("Done!\n", 200)
+    rawdata.exec(target_date, target_table)
+    return ("completed successfully\n", 200)

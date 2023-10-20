@@ -6,6 +6,7 @@ main:
         assign:
             - repository: projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}
             - files: ${files}
+            - tables: ${tables}
     # Cloud Function unzipの実行ステップ
     - callUnzipFunction:
         call: http.get
@@ -29,13 +30,19 @@ main:
                                 type: OIDC
                                 audience: "${CLEANSING_FUNCTION_URL}"
     # Cloud Function import_csv_to_bqの実行ステップ
-    - callCloudFunction:
-        call: http.get
-        args:
-            url: "${CLOUD_FUNCTION_ENDPOINT_URL}"
-            auth:
-                type: OIDC
-                audience: "${CLOUD_FUNCTION_ENDPOINT_URL}"
+    - callImportCsvToBqFunction:
+        parallel:
+            for:
+                value: target_table
+                in: ${val_tables}
+                steps:
+                    - importCsvToBq:
+                        call: http.get
+                        args:
+                            url: ${dollar}{"${CLOUD_FUNCTION_ENDPOINT_URL}?target_table="+target_table}
+                            auth:
+                                type: OIDC
+                                audience: "${CLOUD_FUNCTION_ENDPOINT_URL}"
     # Dataform のコンパイル処理
     #TODO: Dataform実装後に呼び出しできるかの確認
     - createCompilationResult:
