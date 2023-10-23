@@ -42,7 +42,7 @@ def convert_file(file_path, delimiter=','):
                 # 日付の文字列で/を-に変換する
                 buf_list[5] = Util.change_date_delimiter(buf_list[5])
                 buf_list[6] = Util.change_date_delimiter(buf_list[6])
-            elif file_name == '発送実績データ.csv' or file_name == '売掛データ':
+            elif file_name == '発送実績データ.csv' or file_name == '売掛データ.csv':
                 # 日付の文字列で年度が2桁になっているのを４桁に直す
                 buf_list[2] = Util.modify_year(buf_list[2])
             elif file_name == '退会データ.csv':
