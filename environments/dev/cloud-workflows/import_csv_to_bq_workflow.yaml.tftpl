@@ -1,0 +1,21 @@
+# ワークフロー定義の開始
+main:
+    steps:
+    # 初期設定ステップ
+    - init:
+        assign:
+            - tables: ${tables}
+    # Cloud Function import_csv_to_bqの実行ステップ
+    - callImportCsvToBqFunction:
+        parallel:
+            for:
+                value: target_table
+                in: ${val_tables}
+                steps:
+                    - importCsvToBq:
+                        call: http.get
+                        args:
+                            url: ${dollar}{"${IMPORT_CSV_TO_BQ_FUNCTION_URL}?target_table="+target_table}
+                            auth:
+                                type: OIDC
+                                audience: "${IMPORT_CSV_TO_BQ_FUNCTION_URL}"

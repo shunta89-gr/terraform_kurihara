@@ -1,0 +1,25 @@
+# ワークフロー定義の開始
+main:
+    steps:
+    # 初期設定ステップ
+    - init:
+        assign:
+            - repository: projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}
+    # Dataform のコンパイル処理
+    #TODO: Dataform実装後に呼び出しできるかの確認
+    - createCompilationResult:
+        call: http.post
+        args:
+            url: "https://dataform.googleapis.com/v1beta1/projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}/compilationResults"
+            body:
+                gitCommitish: GIT_COMMITISH
+        result: compilationResult
+
+    # Dataform ワークフローの実行処理
+    #TODO: Dataform実装後に呼び出しできるかの確認
+    - createWorkflowInvocation:
+        call: http.post
+        args:
+            url: "https://dataform.googleapis.com/v1beta1/projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}/workflowInvocations"
+            body:
+                compilationResult: "$${compilationResult.body.name}"
