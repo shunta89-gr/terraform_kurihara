@@ -42,6 +42,14 @@ def upload_to_gcs(storage_client, bucket_name, unzip_dir):
         blob = bucket.blob(os.path.basename(f))
         blob.upload_from_filename(f)
         os.remove(f)
+
+def delete_from_gcs(storage_client, bucket_name, file_name):
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(file_name)
+    generation_match_precondition = None
+    blob.reload()
+    generation_match_precondition = blob.generation
+    blob.delete(if_generation_match=generation_match_precondition)
     
 def execute(cloud_event):
     #パラメータよりbucket_name
@@ -77,8 +85,6 @@ def execute(cloud_event):
     print("アップロード処理終了")
     # os.remove('/tmp/'+zip_file_name)
     # shutil.rmtree(unzip_dir)
-    # bucket = storage_client.bucket(bucket_name)
-    # blob = bucket.blob(zip_file_name)
-    # blob.delete()
+    delete_from_gcs(storage_client, bucket_name, zip_file_name)
     
     return "zip解凍処理完了",200
