@@ -12,7 +12,7 @@ module "import_csv_to_bq" {
     entry_point          = "execute"
     function_memory      = "512M"
     timeout_seconds      = 3600
-
+    max_instance_count   = 11 #クレンジングするファイル数と同じにする
 }
 
 module "data_cleansing" {
