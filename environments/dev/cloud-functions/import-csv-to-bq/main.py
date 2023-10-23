@@ -10,8 +10,6 @@ def execute(cloud_event):
         if 'target_date' in request_args:
             target_date = request_args.get('target_date')
     elif 'target_table' in request_json:
-        bucket_name = request_json.get('bucket_name')
-        file_name = request_json.get('file_name')
         target_table = request_json.get('target_table')
         if 'target_date' in request_json:
             target_date = request_json.get('target_date')        
