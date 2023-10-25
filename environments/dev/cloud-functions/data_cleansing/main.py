@@ -1,5 +1,6 @@
 from google.cloud import bigquery, storage
 from google.cloud.storage.retry import DEFAULT_RETRY
+from google.api_core.exceptions import NotFound
 from util import Util
 import io
 import pandas as pd
@@ -27,7 +28,13 @@ def convert_file(file_path, delimiter=','):
     for chunk in chunks:
         lines = []
         for buf in chunk.to_numpy():
-            str_line = ",".join(buf)
+            file_name = Util.get_filename_from_filepath(file_path)
+            if file_name == '媒体マスタ.csv':
+                # オファーの金額文字列中のカンマを削除
+                # カンマを先に削除しておかないと後続の処理でおかしくなるので最初に処理を実行する
+                buf[13] = Util.replace_matched_string(r"([0-9]{1}),([0-9]{3})円", "\\1\\2円", buf[13])
+                
+            str_line = str(delimiter).join(buf)
             # 半角スペースの削除処理
             str_line = Util.remove_hankaku(str_line)
             # 先頭が下記条件に該当したら読み飛ばす
@@ -35,7 +42,7 @@ def convert_file(file_path, delimiter=','):
                 continue
             # 半角全角を統一（英数→半角に統一、カタカナ→全角に統一）
             str_line = Util.convert_to_halfwidth(str_line)
-            file_name = Util.get_filename_from_filepath(file_path)
+            
             #各ファイル毎のクレンジング処理
             buf_list = str_line.split(delimiter)
             if file_name == '顧客マスタ.csv':
@@ -49,12 +56,11 @@ def convert_file(file_path, delimiter=','):
                 # 日付の文字列で年度が2桁になっているのを４桁に直す
                 buf_list[1] = Util.modify_year(buf_list[1])
             elif file_name == '媒体マスタ.csv':
+                # 日付の文字列で/を-に変換する
+                buf_list[6] = Util.change_date_delimiter(buf_list[6])
                 # timeの文字列を%H:%M:%Sに直す
                 buf_list[7] = Util.modify_time(buf_list[7])
                 buf_list[8] = Util.modify_time(buf_list[8])
-                # オファーの金額文字列中のカンマを削除
-                buf_list[13] = Util.replace_matched_string(r"([0-9]{1}),([0-9]{3})円", "\\1\\2円", buf_list[13])
-            
             str_line = ",".join(buf_list)
             str_line = str_line + "\n"
             lines.append(bytes(str_line,'utf-8'))
@@ -108,9 +114,11 @@ def execute(cloud_event):
     
     storage_client = storage.Client()
     
-    tmp_file_path = download_file(storage_client, bucket_name, file_name, file_encoding)
-    tmp_file_name = "tmp_"+file_name
-    output_data_to_gcs(storage_client, bucket_name, tmp_file_path, tmp_file_name)
-    remove_file_from_gcs(storage_client, bucket_name, tmp_file_name, file_name)
-    
+    try:
+        tmp_file_path = download_file(storage_client, bucket_name, file_name, file_encoding)
+        tmp_file_name = "tmp_"+file_name
+        output_data_to_gcs(storage_client, bucket_name, tmp_file_path, tmp_file_name)
+        remove_file_from_gcs(storage_client, bucket_name, tmp_file_name, file_name)
+    except NotFound:
+        return "対象ファイルが存在しませんでした[{}]".format(file_name),200
     return "completed successfully",200
