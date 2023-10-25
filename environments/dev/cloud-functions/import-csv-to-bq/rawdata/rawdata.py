@@ -173,7 +173,7 @@ class RawData:
         source_bucket = storage_client.bucket(bucket_name)
         source_blog = source_bucket.blob(blob_name)
         destination_bucket = storage_client.bucket(backup_bucket_name)
-        destination_blob_name = "{}/{}".format(Datelib.today("%Y%m%d%H%M%S"), blob_name)
+        destination_blob_name = "{}/{}".format(Datelib.today("%Y%m%d"), blob_name)
         destination_generation_match_precondition = 0
         
         blob_copy = source_bucket.copy_blob(
