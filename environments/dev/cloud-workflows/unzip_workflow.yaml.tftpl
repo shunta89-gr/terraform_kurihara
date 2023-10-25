@@ -5,7 +5,7 @@ main:
     - callUnzipFunction:
         call: http.get
         args:
-            url: "${UNZIP_FUNCTION_URL}?bucket_name=${UNZIP_BUCKET}&zip_encodig=${UNZIP_ENCODING}"
+            url: "${UNZIP_FUNCTION_URL}?bucket_name=${UNZIP_BUCKET}&zip_encodig=${UNZIP_ENCODING}&backup_bucket_name=${UNZIP_BACKUP_BUCKET}"
             auth:
                 type: OIDC
                 audience: "${UNZIP_FUNCTION_URL}"

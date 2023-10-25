@@ -2,7 +2,7 @@ from google.cloud import storage
 import glob
 import os
 import zipfile
-import shutil
+from datetime import datetime, timedelta, timezone
 
 def gcs_search(storage_client, bucket_name):
     blobs = storage_client.list_blobs(bucket_name)
@@ -43,13 +43,22 @@ def upload_to_gcs(storage_client, bucket_name, unzip_dir):
         blob.upload_from_filename(f)
         os.remove(f)
 
-def delete_from_gcs(storage_client, bucket_name, file_name):
-    bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(file_name)
-    generation_match_precondition = None
-    blob.reload()
-    generation_match_precondition = blob.generation
-    blob.delete(if_generation_match=generation_match_precondition)
+def buckup_from_gcs(storage_client, bucket_name, file_name, backup_bucket_name):
+    source_bucket = storage_client.bucket(bucket_name)
+    source_blog = source_bucket.blob(file_name)
+    destination_bucket = storage_client.bucket(backup_bucket_name)
+    JST = timezone(timedelta(hours=+9), 'JST')
+    dt_now = datetime.now(JST)
+    str_today = dt_now.strftime("%Y%m%d")
+    
+    destination_blob_name = "{}/{}".format(str_today, file_name)
+    destination_generation_match_precondition = 0
+    
+    blob_copy = source_bucket.copy_blob(
+        source_blog, destination_bucket, destination_blob_name, 
+        if_generation_match=destination_generation_match_precondition,
+    )
+    source_bucket.delete_blob(file_name)
     
 def execute(cloud_event):
     #パラメータよりbucket_name
@@ -57,12 +66,14 @@ def execute(cloud_event):
     request_json = cloud_event.get_json(silent=True)
     file_encoding = 'utf-8'
     zip_encoding = 'utf-8'
-    if request_args and 'bucket_name' in request_args:
+    if request_args and 'bucket_name' in request_args and 'backup_bucket_name' in request_args:
         bucket_name = request_args.get('bucket_name')
+        backup_bucket_name = request_args.get('backup_bucket_name')
         if 'zip_encodig' in request_args:
             zip_encoding = request_args.get('zip_encodig')
-    elif request_json and 'bucket_name' in request_json:
+    elif request_json and 'bucket_name' in request_json and 'backup_bucket_name' in request_json:
         bucket_name = request_json.get('bucket_name')
+        backup_bucket_name = request_json.get('backup_bucket_name')
         if 'zip_encodig' in request_json:
             zip_encoding = request_json.get('zip_encodig')
     else:
@@ -83,8 +94,6 @@ def execute(cloud_event):
     print("アップロード処理開始")
     upload_to_gcs(storage_client, bucket_name, unzip_dir)
     print("アップロード処理終了")
-    # os.remove('/tmp/'+zip_file_name)
-    # shutil.rmtree(unzip_dir)
-    delete_from_gcs(storage_client, bucket_name, zip_file_name)
+    buckup_from_gcs(storage_client, bucket_name, zip_file_name, backup_bucket_name)
     
     return "zip解凍処理完了",200

@@ -25,6 +25,7 @@ module "unzip_workflow" {
   workflow_definition = templatefile("./cloud-workflows/unzip_workflow.yaml.tftpl",{
     UNZIP_FUNCTION_URL          = module.unzip.function_uri,
     UNZIP_BUCKET                = module.data-sorce-bucket.bucket_name,
+    UNZIP_BACKUP_BUCKET         = module.data-sorce-backup-bucket.bucket_name,
     UNZIP_ENCODING              = "CP932"
   })
 }
