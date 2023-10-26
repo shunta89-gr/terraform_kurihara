@@ -51,6 +51,9 @@ targets:
     - name: price
       type: FLOAT
       mode: NULLABLE
+    - name: product_kinds_id
+      type: STRING
+      mode: NULLABLE
     - name: product_kinds
       type: STRING
       mode: NULLABLE
