@@ -5,6 +5,13 @@ main:
     - init:
         assign:
             - tables: ${tables}
+    - importCsvToBqInit:
+        call: http.get
+        args:
+            url: ${IMPORT_CSV_TO_BQ_INIT_FUNCTION_URL}
+            auth:
+                type: OIDC
+                audience: ${IMPORT_CSV_TO_BQ_INIT_FUNCTION_URL}
     # Cloud Function import_csv_to_bqの実行ステップ
     - callImportCsvToBqFunction:
         parallel:
@@ -19,3 +26,4 @@ main:
                             auth:
                                 type: OIDC
                                 audience: "${IMPORT_CSV_TO_BQ_FUNCTION_URL}"
+                            timeout: 1800

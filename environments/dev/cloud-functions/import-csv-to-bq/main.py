@@ -20,3 +20,8 @@ def execute(cloud_event):
     rawdata = RawData()
     rawdata.exec(target_date, target_table)
     return ("completed successfully\n", 200)
+
+def init(cloud_event):
+    rawdata = RawData()
+    rawdata.make_dataset()
+    return ("completed successfully\n", 200)

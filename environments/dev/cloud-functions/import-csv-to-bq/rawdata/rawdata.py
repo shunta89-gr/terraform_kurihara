@@ -98,12 +98,7 @@ class RawData:
     #   schema     :作成対象テーブルのスキーマをハッシュで指定
     ##
     def __create_table(self, bq_client, project_id, dataset, table_name, schemas):
-        dataset_id = "{project_id}.{dataset}".format(project_id=project_id, dataset=dataset)
         table_id = "{project_id}.{dataset}.{table_name}".format(project_id=project_id, dataset=dataset, table_name=table_name)
-        
-        dataset = self.__exsist_dataset(bq_client, dataset_id)
-        if dataset is None:
-            dataset = self.__create_dataset(bq_client, dataset_id)
         
         schema = []
         for buf in schemas:
@@ -181,7 +176,24 @@ class RawData:
             if_generation_match=destination_generation_match_precondition,
         )
         source_bucket.delete_blob(blob_name)
+
+    def make_dataset(self):
+        with open('./rawdata/config.yaml', 'r', encoding="utf-8") as yml:
+            config = yaml.safe_load(yml)
         
+        project_id = config['projectId']
+        target_datasets = []
+        bq_client = bigquery.Client(project=project_id)
+
+        for target in config['targets']:
+            if target['dataset'] in target_datasets:
+                continue
+            target_datasets = target['dataset']
+            dataset_id = "{project_id}.{dataset}".format(project_id=project_id, dataset=target['dataset'])
+            dataset = self.__exsist_dataset(bq_client, dataset_id)
+            if dataset is None:
+                dataset = self.__create_dataset(bq_client, dataset_id)
+            
     ##
     #
     # exec

@@ -54,10 +54,11 @@ module "import_csv_to_bq_workflow" {
   workflow_service_account = module.worlflow_sa.sa_email
   
   workflow_definition = templatefile("./cloud-workflows/import_csv_to_bq_workflow.yaml.tftpl",{
-    IMPORT_CSV_TO_BQ_FUNCTION_URL = module.import_csv_to_bq.function_uri,
-    tables                      = "[\"customer_master\",\"product_master\",\"unsubscribe_info\",\"customer_sales_master\",\"customer_product_sales_master\",\"sales_data\",\"sales_meisai_data\",\"customer_stage_master\",\"dormant_customer\",\"media_master\",\"dempyo_send_data\"]",
-    dollar                      = "${local.dollar}",
-    val_tables                  = "${local.dollar}{tables}"
+    IMPORT_CSV_TO_BQ_FUNCTION_URL      = module.import_csv_to_bq.function_uri,
+    IMPORT_CSV_TO_BQ_INIT_FUNCTION_URL = module.import_csv_to_bq_init.function_uri,
+    tables                             = "[\"customer_master\",\"product_master\",\"unsubscribe_info\",\"customer_sales_master\",\"customer_product_sales_master\",\"sales_data\",\"sales_meisai_data\",\"customer_stage_master\",\"dormant_customer\",\"media_master\",\"dempyo_send_data\"]",
+    dollar                             = "${local.dollar}",
+    val_tables                         = "${local.dollar}{tables}"
   })
 }
 
