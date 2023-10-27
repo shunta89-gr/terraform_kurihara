@@ -209,17 +209,17 @@ targets:
     - name: total
       type: FLOAT
       mode: NULLABLE
-    - name: payment_code
+    - name: payment_method
       type: STRING
       mode: NULLABLE
     - name: discount
       type: FLOAT
       mode: NULLABLE
-    - name: order_code
+    - name: order_method
       type: STRING
       mode: NULLABLE
  - path: sales_meisai_data
-   fileSearchPath: "売掛明細データ.csv"
+   fileSearchPath: "売掛明細データ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
