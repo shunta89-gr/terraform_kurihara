@@ -38,7 +38,7 @@ variable "target_workflow_name" {
   type        = string
 }
 
-variable "alert_channel_id" {
+variable "alert_channel_ids" {
   description = "Schedulerのアラートの通知チャンネルID"
-  type        = string
+  type        = list(string)
 }

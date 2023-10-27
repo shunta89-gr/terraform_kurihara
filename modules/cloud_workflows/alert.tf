@@ -1,6 +1,6 @@
 resource "google_monitoring_alert_policy" "workflow-policy" {
   display_name          = "${var.workflow_name} エラー監視"
-  notification_channels = [var.alert_channel_id]
+  notification_channels = var.alert_channel_ids
   combiner              = "OR"
 
   conditions {

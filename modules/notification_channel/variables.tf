@@ -3,7 +3,7 @@ variable "notification_channel_name" {
   type        = string
 }
 
-variable "notification_email_address" {
+variable "notification_email_addresses" {
   description = "Notificationの通知先メールアドレス"
-  type        = string
+  type        = list(string)
 }
