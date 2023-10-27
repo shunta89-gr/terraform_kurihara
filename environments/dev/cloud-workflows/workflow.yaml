@@ -4,7 +4,7 @@ main:
     # 初期設定ステップ
     - init:
         assign:
-        - repository: projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}a
+        - repository: projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}
 
     # Cloud Function の実行ステップ
     - callCloudFunction:
