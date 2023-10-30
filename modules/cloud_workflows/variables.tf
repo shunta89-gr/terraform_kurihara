@@ -27,3 +27,8 @@ variable "workflow_definition" {
   description = "ワークフローの定義内容"
   type        = string
 }
+
+variable "alert_channel_ids" {
+  description = "Workflowsのアラートの通知チャンネルID"
+  type        = list(string)
+}
