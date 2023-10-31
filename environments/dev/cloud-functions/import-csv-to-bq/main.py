@@ -17,11 +17,18 @@ def execute(cloud_event):
         return "パラメータの指定に誤りがあります", 400
     
     print("---- target_date = {}".format(target_date))
-    rawdata = RawData()
-    rawdata.exec(target_date, target_table)
-    return ("completed successfully\n", 200)
+    
+    try:
+        rawdata = RawData()
+        rawdata.exec(target_date, target_table)
+        return "completed successfully\n", 200
+    except Exception as e:
+        return "予期せぬエラーが発生しました: {}".format(e), 500
 
 def init(cloud_event):
-    rawdata = RawData()
-    rawdata.make_dataset()
-    return ("completed successfully\n", 200)
+    try:
+        rawdata = RawData()
+        rawdata.make_dataset()
+        return "completed successfully\n", 200
+    except Exception as e:
+        return "予期せぬエラーが発生しました: {}".format(e), 500
