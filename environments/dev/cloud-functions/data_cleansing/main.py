@@ -41,7 +41,7 @@ def convert_file(file_path, delimiter=','):
                 
             str_line = str(delimiter).join(buf)
             # 半角スペースの削除処理
-            str_line = Util.remove_hankaku(str_line)
+            str_line = Util.remove_space(str_line)
             # 先頭が下記条件に該当したら読み飛ばす
             if Util.search(r'^(\r\n|\n|\r|------|顧客ID|商品ID|媒体コード|伝票番号|年月|媒体ID)+', str_line) is not None:
                 continue

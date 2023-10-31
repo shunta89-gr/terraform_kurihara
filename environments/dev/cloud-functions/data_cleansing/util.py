@@ -9,7 +9,7 @@ class Util:
         return unicodedata.normalize('NFKC', text)
 
     @staticmethod
-    def remove_hankaku(text:str):
+    def remove_space(text:str):
         return text.replace(' ', '')
 
     @staticmethod
