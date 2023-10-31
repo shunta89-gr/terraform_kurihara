@@ -11,4 +11,5 @@ module "cloud_scheduler" {
     "roles/workflows.invoker"
   ]
   target_workflow_name = module.cloud_workflow.workflow_name
+  alert_channel_ids =  module.notification_channel.notification_channel_ids
 }

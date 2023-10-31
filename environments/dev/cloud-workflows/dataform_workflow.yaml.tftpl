@@ -6,7 +6,6 @@ main:
         assign:
             - repository: projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}
     # Dataform のコンパイル処理
-    #TODO: Dataform実装後に呼び出しできるかの確認
     - createCompilationResult:
         call: http.post
         args:
@@ -16,7 +15,6 @@ main:
         result: compilationResult
 
     # Dataform ワークフローの実行処理
-    #TODO: Dataform実装後に呼び出しできるかの確認
     - createWorkflowInvocation:
         call: http.post
         args:

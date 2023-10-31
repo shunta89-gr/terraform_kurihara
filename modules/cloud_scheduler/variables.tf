@@ -42,3 +42,8 @@ variable "time_zone" {
   description = "Cloud Scheduler Jobのタイムゾーン"
   type = string
 }
+
+variable "alert_channel_ids" {
+  description = "Schedulerのアラートの通知チャンネルID"
+  type        = list(string)
+}

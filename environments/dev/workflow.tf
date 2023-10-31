@@ -7,6 +7,7 @@ module "cloud_workflow" {
   project_id               = var.project_id
   workflow_name            = "kenkokazoku-workflow"
   workflow_service_account = module.worlflow_sa.sa_email
+  alert_channel_ids   = module.notification_channel.notification_channel_ids
   
   workflow_definition = templatefile("./cloud-workflows/workflow.yaml.tftpl",{
     UNZIP_WORKFLOW_ID             = module.unzip_workflow.workflow_name,
@@ -21,7 +22,7 @@ module "unzip_workflow" {
   project_id               = var.project_id
   workflow_name            = "unzip"
   workflow_service_account = module.worlflow_sa.sa_email
-  
+  alert_channel_ids        = []
   workflow_definition = templatefile("./cloud-workflows/unzip_workflow.yaml.tftpl",{
     UNZIP_FUNCTION_URL          = module.unzip.function_uri,
     UNZIP_BUCKET                = module.data-sorce-bucket.bucket_name,
@@ -35,7 +36,7 @@ module "data_cleansing_workflow" {
   project_id               = var.project_id
   workflow_name            = "data_cleansing"
   workflow_service_account = module.worlflow_sa.sa_email
-  
+  alert_channel_ids        = []
   workflow_definition = templatefile("./cloud-workflows/data_cleansing_workflow.yaml.tftpl",{
     CLEANSING_FUNCTION_URL      = module.data_cleansing.function_uri,
     BUCKET                = module.data-sorce-bucket.bucket_name,
@@ -52,7 +53,7 @@ module "import_csv_to_bq_workflow" {
   project_id               = var.project_id
   workflow_name            = "import_csv_to_bq"
   workflow_service_account = module.worlflow_sa.sa_email
-  
+  alert_channel_ids        = []
   workflow_definition = templatefile("./cloud-workflows/import_csv_to_bq_workflow.yaml.tftpl",{
     IMPORT_CSV_TO_BQ_FUNCTION_URL      = module.import_csv_to_bq.function_uri,
     IMPORT_CSV_TO_BQ_INIT_FUNCTION_URL = module.import_csv_to_bq_init.function_uri,
@@ -67,7 +68,7 @@ module "dataform_workflow" {
   project_id               = var.project_id
   workflow_name            = "dataform"
   workflow_service_account = module.worlflow_sa.sa_email
-  
+  alert_channel_ids        = []
   workflow_definition = templatefile("./cloud-workflows/dataform_workflow.yaml.tftpl",{
     PROJECT_ID                  = var.project_id,
     REPOSITORY_LOCATION         = var.region,
