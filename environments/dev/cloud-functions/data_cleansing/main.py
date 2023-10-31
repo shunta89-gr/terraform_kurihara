@@ -1,4 +1,4 @@
-from google.cloud import bigquery, storage
+from google.cloud import storage
 from google.cloud.storage.retry import DEFAULT_RETRY
 from google.api_core.exceptions import NotFound
 from util import Util
