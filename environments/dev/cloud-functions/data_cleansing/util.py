@@ -18,10 +18,6 @@ class Util:
 
     @staticmethod
     def modify_year(text):
-        # 入力値バリデーション
-        if not text.isdigit() or len(text) != 2:
-            raise ValueError("年は2桁の数値でなければなりません")
-    
         JST = timezone(timedelta(hours=+9), 'JST')
         now_yy = datetime.now(JST).strftime("%y")
         source_yy = text[:2]
