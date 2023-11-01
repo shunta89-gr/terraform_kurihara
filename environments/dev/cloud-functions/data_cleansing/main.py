@@ -1,6 +1,6 @@
 from google.cloud import storage
 from google.cloud.storage.retry import DEFAULT_RETRY
-from google.api_core.exceptions import NotFound
+from google.api_core import exceptions as ex
 from util import Util
 import io
 import pandas as pd
@@ -22,8 +22,8 @@ def download_file(storage_client, bucket_name, file_name, encoding):
             fs.flush()
         
         return temp_file, 200
-    except NotFound:
-        return "ファイルが見つかりませんでした: {}".format(file_name), 200
+    except ex.NotFound:
+        return "ファイルが存在しませんでした[{}]".format(file_name), 204        
     except Exception as e:
         return "ファイルのダウンロード中にエラーが発生しました: {}".format(e), 500
 
@@ -140,7 +140,7 @@ def execute(cloud_event):
         output_message, status_code = remove_file_from_gcs(storage_client, bucket_name, tmp_file_name, file_name)
         if status_code != 200:
             return output_message, status_code
+        
+        return "completed successfully", 200
     except Exception as e:
         return "予期せぬエラーが発生しました: {}".format(e), 500
-    
-    return "completed successfully",200
