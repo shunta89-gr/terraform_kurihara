@@ -18,6 +18,9 @@ class Util:
 
     @staticmethod
     def modify_year(text):
+        if Util.search(r'[0-9][0-9]-[0-9][0-9]-[0-9][0-9]', text) == None:
+            raise ValueError("フォーマットが正しくありません。確認してください[{}]".format(text))
+        
         JST = timezone(timedelta(hours=+9), 'JST')
         now_yy = datetime.now(JST).strftime("%y")
         source_yy = text[:2]
