@@ -9,7 +9,7 @@ resource "google_cloud_scheduler_job" "main" {
     uri         = "https://workflowexecutions.googleapis.com/v1/projects/${var.project_id}/locations/${var.region}/workflows/${var.target_workflow_name}/executions"
 
     oauth_token {
-      service_account_email = google_service_account.scheduler_sa.email
+      service_account_email = var.sa_email
     }
   }
 }

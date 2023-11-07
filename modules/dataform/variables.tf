@@ -22,10 +22,6 @@ variable "default_branch" {
     type = string
 }
 
-variable "dataform_sa_roles" {
-    type = list(string)
-}
-
 variable "dataform_secret_id" {
     type = string
 }
@@ -34,14 +30,10 @@ variable "authentication_token" {
     type = string
 }
 
-variable "dataform_sa_id" {
-    type = string
-}
-
-variable "dataform_sa_display_name" {
-    type = string
-}
-
 variable "credentials_path" {
+    type = string
+}
+
+variable "sa_email" {
     type = string
 }
