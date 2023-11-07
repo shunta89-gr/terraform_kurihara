@@ -188,7 +188,7 @@ class RawData:
         for target in config['targets']:
             if target['dataset'] in target_datasets:
                 continue
-            target_datasets = target['dataset']
+            target_datasets.append(target['dataset'])
             dataset_id = "{project_id}.{dataset}".format(project_id=project_id, dataset=target['dataset'])
             dataset = self.__exsist_dataset(bq_client, dataset_id)
             if dataset is None:
