@@ -5,7 +5,13 @@ variable "storage_name" {
 }
 
 variable "location" {
-  description = "Cloud Storageの名前"
+  description = "Cloud Storageのロケーション"
   type        = string
   default     = ""
+}
+
+variable "force_destroy" {
+  description = "Cloud Storageの強制削除フラグ"
+  type        = bool
+  default     = false
 }
