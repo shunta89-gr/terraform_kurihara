@@ -1,8 +1,14 @@
+# functionのスクリプト用コンフィグを共通ディレクトリにコピーする
+resource "local_file" "config_yaml" {
+  content     = file("./cloud-functions/import-csv-to-bq/rawdata/config.yaml")
+  filename = "../common/cloud-functions/import-csv-to-bq/rawdata/config.yaml"
+}
+
 module "import_csv_to_bq" {
     source = "../../modules/cloud_functions"
     
-    source_dir           = "./cloud-functions/import-csv-to-bq"
-    output_path          = "./cloud-functions/import-csv-to-bq.zip"
+    source_dir           = "../common/cloud-functions/import-csv-to-bq"
+    output_path          = "../common/cloud-functions/import-csv-to-bq.zip"
     bucket_name          = module.functions-bucket.bucket_name
     bucket_region        = var.region
     function_region      = var.region
@@ -13,13 +19,18 @@ module "import_csv_to_bq" {
     function_memory      = "512M"
     timeout_seconds      = 3600
     max_instance_count   = 11 #クレンジングするファイル数と同じにする
+
+    # コンフィグファイルのコピー後に実行
+    depends_on = [
+        local_file.config_yaml
+    ]
 }
 
 module "import_csv_to_bq_init" {
     source = "../../modules/cloud_functions"
     
-    source_dir           = "./cloud-functions/import-csv-to-bq"
-    output_path          = "./cloud-functions/import-csv-to-bq.zip"
+    source_dir           = "../common/cloud-functions/import-csv-to-bq"
+    output_path          = "../common/cloud-functions/import-csv-to-bq.zip"
     bucket_name          = module.functions-bucket.bucket_name
     bucket_region        = var.region
     function_region      = var.region
@@ -30,13 +41,18 @@ module "import_csv_to_bq_init" {
     function_memory      = "512M"
     timeout_seconds      = 3600
     max_instance_count   = 1 
+
+    # コンフィグファイルのコピー後に実行
+    depends_on = [
+        local_file.config_yaml
+    ]
 }
 
 module "data_cleansing" {
     source = "../../modules/cloud_functions"
     
-    source_dir           = "./cloud-functions/data_cleansing"
-    output_path          = "./cloud-functions/data_cleansing.zip"
+    source_dir           = "../common/cloud-functions/data_cleansing"
+    output_path          = "../common/cloud-functions/data_cleansing.zip"
     bucket_name          = module.functions-bucket.bucket_name
     bucket_region        = var.region
     function_region      = var.region
@@ -52,8 +68,8 @@ module "data_cleansing" {
 module "unzip" {
     source = "../../modules/cloud_functions"
     
-    source_dir           = "./cloud-functions/unzip"
-    output_path          = "./cloud-functions/unzip.zip"
+    source_dir           = "../common/cloud-functions/unzip"
+    output_path          = "../common/cloud-functions/unzip.zip"
     bucket_name          = module.functions-bucket.bucket_name
     bucket_region        = var.region
     function_region      = var.region

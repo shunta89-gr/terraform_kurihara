@@ -1,6 +1,6 @@
 projectId: dev-dbd
-bucketName: kenkoukazoku-rawdata
-backupBucketName: kenkoukazoku-rawdata-backup
+bucketName: kenkoukazoku-rawdata-dev
+backupBucketName: kenkoukazoku-rawdata-backup-dev
 targets:
  - path: customer_master
    fileSearchPath: "顧客マスタ.csv"
