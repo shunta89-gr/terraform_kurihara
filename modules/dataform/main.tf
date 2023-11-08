@@ -17,7 +17,7 @@ resource "google_secret_manager_secret_iam_member" "member" {
   provider  = google-beta
   secret_id = google_secret_manager_secret.dataform_git.secret_id
   role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${google_service_account.dataform_sa.email}"
+  member    = "serviceAccount:${var.sa_email}"
 }
 
 resource "google_dataform_repository" "repository" {

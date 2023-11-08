@@ -1,4 +1,4 @@
-resource "google_monitoring_alert_policy" "scheduler-policy" {
+resource "google_monitoring_alert_policy" "main" {
   display_name          = "${var.job_name} エラー監視"
   notification_channels = var.alert_channel_ids
   combiner              = "OR"
@@ -6,7 +6,7 @@ resource "google_monitoring_alert_policy" "scheduler-policy" {
   conditions {
     display_name = "${var.job_name}-error-logs"
     condition_matched_log {
-      filter = "resource.type=\"cloud_scheduler_job\" AND resource.labels.job_id=\"${var.job_name}\" AND severity=\"ERROR\""
+      filter = var.filter
     }
   }
 

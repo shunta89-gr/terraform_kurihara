@@ -17,8 +17,3 @@ variable "workflow_service_account" {
   description = "ワークフローのサービスアカウント"
   type        = string
 }
-
-variable "alert_channel_ids" {
-  description = "Workflowsのアラートの通知チャンネルID"
-  type        = list(string)
-}
