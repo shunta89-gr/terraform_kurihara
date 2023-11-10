@@ -1,6 +1,10 @@
 # functionのスクリプト用コンフィグを共通ディレクトリにコピーする
 resource "local_file" "config_yaml" {
-  content     = file("./cloud-functions/import-csv-to-bq/rawdata/config.yaml")
+  content = templatefile("../common/cloud-functions/import-csv-to-bq-config.yaml.tpl", {
+    project_id        = var.project_id
+    bucket_name       = module.functions-bucket.bucket_name
+    backup_bucket_name = module.data-sorce-backup-bucket.bucket_name
+  })
   filename = "../common/cloud-functions/import-csv-to-bq/rawdata/config.yaml"
 }
 
