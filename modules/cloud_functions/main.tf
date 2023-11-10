@@ -11,23 +11,12 @@ data "archive_file" "function_archive" {
 
 ###
 #
-# ソースファイルをアップするバケットを作成
-#
-###
-resource "google_storage_bucket" "bucket" {
-    name          = var.bucket_name
-    location      = var.bucket_region
-    storage_class = "STANDARD"
-}
-
-###
-#
 # zipファイルをアップする
 #
 ###
 resource "google_storage_bucket_object" "package" {
     name   = "packages/functions.${data.archive_file.function_archive.output_md5}.zip"
-    bucket = google_storage_bucket.bucket.name
+    bucket = var.bucket_name
     source = data.archive_file.function_archive.output_path 
 }
 
@@ -46,14 +35,14 @@ resource "google_cloudfunctions2_function" "function" {
         entry_point = var.entry_point
         source {
             storage_source {
-                bucket = google_storage_bucket.bucket.name
+                bucket = var.bucket_name
                 object = google_storage_bucket_object.package.name
             }
         }
     }
     
     service_config {
-        max_instance_count  = 1
+        max_instance_count  = var.max_instance_count
         available_memory    = var.function_memory
         timeout_seconds     = var.timeout_seconds
     }

@@ -43,3 +43,8 @@ variable "function_memory" {
 variable "timeout_seconds" {
     type = number
 }
+
+variable "max_instance_count" {
+    type    = number
+    default = 1
+}

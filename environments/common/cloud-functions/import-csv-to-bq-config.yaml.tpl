@@ -1,9 +1,9 @@
-projectId: dev-dbd
-bucketName: kenkoukazoku-rawdata
-backupBucketName: kenkoukazoku-rawdata-backup
+projectId: ${project_id}
+bucketName: ${bucket_name}
+backupBucketName: ${backup_bucket_name}
 targets:
- - path: test
-   fileSearchPath: test
+ - path: customer_master
+   fileSearchPath: "顧客マスタ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
@@ -31,8 +31,8 @@ targets:
     - name: birth_date
       type: DATE
       mode: NULLABLE
- - path: test
-   fileSearchPath: test
+ - path: product_master
+   fileSearchPath: "商品マスタ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
@@ -51,28 +51,14 @@ targets:
     - name: price
       type: FLOAT
       mode: NULLABLE
+    - name: product_kinds_id
+      type: STRING
+      mode: NULLABLE
     - name: product_kinds
       type: STRING
       mode: NULLABLE
- - path: test
-   fileSearchPath: test
-   fieldDelimiter: ","
-   fileEncoding: "utf-8"
-   dataset: common_space
-   tableName: old_media_master
-   isMaster: true
-   schema: 
-    - name: media_id
-      type: STRING
-      mode: REQUIRED
-    - name: media_name
-      type: STRING
-      mode: NULLABLE
-    - name: ad_series
-      type: STRING
-      mode: NULLABLE
- - path: test
-   fileSearchPath: test
+ - path: unsubscribe_info
+   fileSearchPath: "退会データ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
@@ -91,8 +77,8 @@ targets:
     - name: reason
       type: STRING
       mode: NULLABLE
- - path: test
-   fileSearchPath: test
+ - path: customer_sales_master
+   fileSearchPath: "顧客売上マスタ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
@@ -126,8 +112,8 @@ targets:
     - name: last_send_month
       type: STRING
       mode: NULLABLE
- - path: test
-   fileSearchPath: test
+ - path: customer_product_sales_master
+   fileSearchPath: "顧客商品別売上マスタ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
@@ -185,13 +171,13 @@ targets:
     - name: first_sub_start_month
       type: STRING
       mode: NULLABLE
- - path: test
-   fileSearchPath: test
+ - path: sales_data
+   fileSearchPath: "売掛データ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
    tableName: sales_data
-   isMaster: false
+   isMaster: true
    schema: 
     - name: customer_id
       type: STRING
@@ -223,22 +209,22 @@ targets:
     - name: total
       type: FLOAT
       mode: NULLABLE
-    - name: payment_code
+    - name: payment_method
       type: STRING
       mode: NULLABLE
     - name: discount
       type: FLOAT
       mode: NULLABLE
-    - name: order_code
+    - name: order_method
       type: STRING
       mode: NULLABLE
- - path: test
-   fileSearchPath: test
+ - path: sales_meisai_data
+   fileSearchPath: "売掛明細データ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
    tableName: sales_meisai_data
-   isMaster: false
+   isMaster: true
    schema: 
     - name: dempyo_id
       type: STRING
@@ -276,109 +262,8 @@ targets:
     - name: discount
       type: FLOAT
       mode: NULLABLE
- - path: test
-   fileSearchPath: test
-   fieldDelimiter: ","
-   fileEncoding: "utf-8"
-   dataset: common_space
-   tableName: tv_response_data
-   isMaster: false
-   schema: 
-    - name: year_month
-      type: STRING
-      mode: REQUIRED
-    - name: product_name
-      type: STRING
-      mode: REQUIRED
-    - name: material_code
-      type: STRING
-      mode: NULLABLE
-    - name: material_memo
-      type: STRING
-      mode: NULLABLE
-    - name: offer_message
-      type: STRING
-      mode: NULLABLE
-    - name: area
-      type: STRING
-      mode: REQUIRED
-    - name: kyoku
-      type: STRING
-      mode: NULLABLE
-    - name: keiretsu
-      type: STRING
-      mode: NULLABLE
-    - name: on_airdate
-      type: DATE
-      mode: NULLABLE
-    - name: day_of_week
-      type: STRING
-      mode: NULLABLE
-    - name: start_time
-      type: TIME
-      mode: NULLABLE
-    - name: end_time
-      type: TIME
-      mode: NULLABLE
-    - name: time_length
-      type: FLOAT
-      mode: NULLABLE
-    - name: ad_amount
-      type: FLOAT
-      mode: NULLABLE
-    - name: new_nonsubscription_num
-      type: INTEGER
-      mode: NULLABLE
-    - name: new_nonsubscription_amount
-      type: FLOAT
-      mode: NULLABLE
-    - name: new_subscription_num
-      type: INTEGER
-      mode: NULLABLE
-    - name: new_subscription_amount
-      type: FLOAT
-      mode: NULLABLE
-    - name: exist_nonsubscription_num
-      type: INTEGER
-      mode: NULLABLE
-    - name: exist_nonsubscription_amount
-      type: FLOAT
-      mode: NULLABLE
-    - name: exist_subscription_num
-      type: INTEGER
-      mode: NULLABLE
-    - name: exist_subscription_amount
-      type: FLOAT
-      mode: NULLABLE
-    - name: new_sample_num
-      type: INTEGER
-      mode: NULLABLE
-    - name: exist_sample_num
-      type: INTEGER
-      mode: NULLABLE
-    - name: other_num
-      type: INTEGER
-      mode: NULLABLE
-    - name: response_num
-      type: INTEGER
-      mode: NULLABLE
-    - name: purchase_num
-      type: INTEGER
-      mode: NULLABLE
-    - name: subscription_rate
-      type: FLOAT
-      mode: NULLABLE
-    - name: new_subscription_rate
-      type: FLOAT
-      mode: NULLABLE
-    - name: cpo
-      type: FLOAT
-      mode: NULLABLE
-    - name: cpr
-      type: FLOAT
-      mode: NULLABLE
- - path: test
-   fileSearchPath: test
+ - path: customer_stage_master
+   fileSearchPath: "顧客ステージマスタ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
@@ -394,8 +279,8 @@ targets:
     - name: stage_title
       type: STRING
       mode: NULLABLE
- - path: test
-   fileSearchPath: test
+ - path: dormant_customer
+   fileSearchPath: "顧客休眠マスタ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
@@ -405,8 +290,8 @@ targets:
     - name: customer_id
       type: STRING
       mode: REQUIRED
- - path: test
-   fileSearchPath: test
+ - path: media_master
+   fileSearchPath: "媒体マスタ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
@@ -455,13 +340,13 @@ targets:
     - name: offer_message
       type: STRING
       mode: NULLABLE
- - path: test
-   fileSearchPath: test
+ - path: dempyo_send_data
+   fileSearchPath: "発送実績データ.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: common_space
    tableName: dempyo_send_data
-   isMaster: false
+   isMaster: true
    schema: 
     - name: customer_id
       type: STRING

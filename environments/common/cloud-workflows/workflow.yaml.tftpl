@@ -1,0 +1,24 @@
+# ワークフロー定義の開始
+main:
+    steps:
+    # Cloud Function unzipの実行ステップ
+    - callUnzipFunction:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
+        args:
+            workflow_id: ${UNZIP_WORKFLOW_ID}
+    # Cloud Function データクレンジングの実行ステップ
+    - callCleansingFunction:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
+        args:
+            workflow_id: ${CLEANSING_WORKFLOW_ID}
+    # Cloud Function import_csv_to_bqの実行ステップ
+    - callImportCsvToBqFunction:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
+        args:
+            workflow_id: ${IMPORT_CSV_TO_BQ_WORKFLOW_ID}
+    # Dataform のコンパイル処理
+    #TODO: Dataform実装後に呼び出しできるかの確認
+    - callDataform:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
+        args:
+            workflow_id: ${DATAFORM_WORKFLOW_ID}

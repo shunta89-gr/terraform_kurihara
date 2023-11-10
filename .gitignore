@@ -24,3 +24,6 @@ github-token/*
 venv/*
 
 *.zip
+
+#環境共通ディレクトリ内のコンフィグファイル
+environments/common/cloud-functions/import-csv-to-bq/rawdata/config.yaml

@@ -4,15 +4,7 @@ main:
     # 初期設定ステップ
     - init:
         assign:
-        - repository: projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}
-
-    # Cloud Function の実行ステップ
-    - callCloudFunction:
-        call: http.get
-        args:
-            url: "${CLOUD_FUNCTION_ENDPOINT_URL}"
-            auth:
-                type: OIDC
+            - repository: projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}
     # Dataform のコンパイル処理
     - createCompilationResult:
         call: http.post
