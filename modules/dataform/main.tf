@@ -27,18 +27,9 @@ resource "google_dataform_repository" "repository" {
   git_remote_settings {
     url                                 = var.github_url
     default_branch                      = var.default_branch
-    authentication_token_secret_version = google_secret_manager_secret_version.dataform_git_version.id
-  }
-
-  # 暫定対応：GCP REST APIでホストのSSH公開鍵の設定する
-  provisioner "local-exec" {
-    command = <<EOF
-    GOOGLE_APPLICATION_CREDENTIALS=${var.credentials_path} &&
-    curl https://dataform.googleapis.com/v1beta1/projects/${var.project_id}/locations/${var.location}/repositories/${var.dataform_name} \
-        -X PATCH \
-        -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
-        -H 'Content-Type: application/json' \
-        -d "{'gitRemoteSettings':{'url':'${var.github_url}','default_branch':'${var.default_branch}','sshAuthenticationConfig':{'userPrivateKeySecretVersion':'${google_secret_manager_secret_version.dataform_git_version.name}','hostPublicKey':'${var.github_public_key}'}}}"
-    EOF
+    ssh_authentication_config {
+      user_private_key_secret_version = google_secret_manager_secret_version.dataform_git_version.id
+      host_public_key                 = var.github_public_key
+    }
   }
 }
