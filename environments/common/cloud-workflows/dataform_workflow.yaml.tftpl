@@ -11,7 +11,9 @@ main:
         args:
             url: "https://dataform.googleapis.com/v1beta1/projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}/compilationResults"
             body:
-                gitCommitish: GIT_COMMITISH
+                gitCommitish: ${GIT_COMMITISH}
+            auth:
+                type: OAuth2
         result: compilationResult
 
     # Dataform ワークフローの実行処理
@@ -21,3 +23,6 @@ main:
             url: "https://dataform.googleapis.com/v1beta1/projects/${PROJECT_ID}/locations/${REPOSITORY_LOCATION}/repositories/${REPOSITORY_ID}/workflowInvocations"
             body:
                 compilationResult: "$${compilationResult.body.name}"
+            auth:
+                type: OAuth2
+                

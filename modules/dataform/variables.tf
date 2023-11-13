@@ -30,10 +30,6 @@ variable "authentication_token" {
     type = string
 }
 
-variable "credentials_path" {
-    type = string
-}
-
 variable "sa_email" {
     type = string
 }

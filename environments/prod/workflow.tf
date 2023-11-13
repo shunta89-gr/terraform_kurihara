@@ -67,6 +67,6 @@ module "dataform_workflow" {
     PROJECT_ID                  = var.project_id,
     REPOSITORY_LOCATION         = var.region,
     REPOSITORY_ID               = module.dataform.dataform_repository_name,
-    GIT_COMMITISH               = "develop"
+    GIT_COMMITISH               = "main"
   })
 }
