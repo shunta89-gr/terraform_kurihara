@@ -2,7 +2,7 @@
 resource "local_file" "config_yaml" {
   content = templatefile("../common/cloud-functions/import-csv-to-bq-config.yaml.tpl", {
     project_id        = var.project_id
-    bucket_name       = module.functions-bucket.bucket_name
+    bucket_name       = module.data-sorce-bucket.bucket_name
     backup_bucket_name = module.data-sorce-backup-bucket.bucket_name
   })
   filename = "../common/cloud-functions/import-csv-to-bq/rawdata/config.yaml"
@@ -81,7 +81,7 @@ module "unzip" {
     function_description = "zip解凍処理"
     function_runtime     = "python311"
     entry_point          = "execute"
-    function_memory      = "2G"
+    function_memory      = "4G"
     timeout_seconds      = 3600
 
 }
