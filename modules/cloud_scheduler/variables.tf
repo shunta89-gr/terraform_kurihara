@@ -25,7 +25,7 @@ variable "target_workflow_name" {
 
 variable "time_zone" {
   description = "Cloud Scheduler Jobのタイムゾーン"
-  type = string
+  type        = string
 }
 
 variable "sa_email" {

@@ -9,6 +9,6 @@ variable "alert_channel_ids" {
 }
 
 variable "filter" {
-    description = "アラート条件"
-    type        = string
+  description = "アラート条件"
+  type        = string
 }

@@ -1,35 +1,35 @@
 variable "project_id" {
-    type = string
+  type = string
 }
 
 variable "location" {
-  type        = string
+  type = string
 }
 
 variable "dataform_name" {
-    type = string
+  type = string
 }
 
 variable "github_url" {
-    type = string
+  type = string
 }
 
 variable "github_public_key" {
-    type = string
+  type = string
 }
 
 variable "default_branch" {
-    type = string
+  type = string
 }
 
 variable "dataform_secret_id" {
-    type = string
+  type = string
 }
 
 variable "authentication_token" {
-    type = string
+  type = string
 }
 
 variable "sa_email" {
-    type = string
+  type = string
 }

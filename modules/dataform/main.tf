@@ -25,8 +25,8 @@ resource "google_dataform_repository" "repository" {
   name     = var.dataform_name
 
   git_remote_settings {
-    url                                 = var.github_url
-    default_branch                      = var.default_branch
+    url            = var.github_url
+    default_branch = var.default_branch
     ssh_authentication_config {
       user_private_key_secret_version = google_secret_manager_secret_version.dataform_git_version.id
       host_public_key                 = var.github_public_key
