@@ -8,13 +8,16 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ../enviroments/prod
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.0.0
+          terraform_version: 1.5.4
       - name: Terraform Init
         run: terraform init
       - name: Terraform Fmt
