@@ -12,7 +12,7 @@ defaults:
 jobs:
   terraform-workflow:
     runs-on: ubuntu-latest
-    permission:
+    permissions:
       id-token: write
       contents: read
       pull-requests: write
