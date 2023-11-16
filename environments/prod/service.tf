@@ -10,6 +10,8 @@ module "google_project_service" {
     "workflows.googleapis.com",
     "workflowexecutions.googleapis.com",
     "run.googleapis.com",
-    "cloudbuild.googleapis.com"
+    "cloudbuild.googleapis.com",
+    "iamcredentials.googleapis.com",
+    "sts.googleapis.com",
   ]
 }
