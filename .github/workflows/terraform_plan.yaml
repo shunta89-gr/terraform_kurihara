@@ -5,7 +5,7 @@ on:
     branches:
       - feature/*
 
-default:
+defaults:
   run:
     working-directory: ./environments/prod
     
