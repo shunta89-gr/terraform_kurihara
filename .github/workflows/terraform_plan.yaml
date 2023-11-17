@@ -24,7 +24,7 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/gpj-bi-kenkoukazoku/locations/global/workloadIdentityPools/my-pool/identityProviders/my-provider'
+          workload_identity_provider: 'projects/151772412242/locations/global/workloadIdentityPools/my-pool/identityProviders/my-provider'
           service_account: 'terraform@gpj-bi-kenkoukazoku.iam.gserviceaccount.com'
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
