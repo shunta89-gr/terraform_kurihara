@@ -8,7 +8,7 @@ terraform {
   }
   backend "gcs" {
     # TODO:本番作成時には、backend用backetを手動作成、指定が必要
-    bucket      = "kenkoukazoku-tfstate"
+    bucket = "kenkoukazoku-tfstate"
     # credentials = "../../json-key/gpj-bi-kenkoukazoku-946fbf7d0b2c.json"
   }
 }
@@ -16,15 +16,15 @@ terraform {
 # プロバイダ設定
 provider "google" {
   # credentials = file("../../json-key/gpj-bi-kenkoukazoku-946fbf7d0b2c.json")
-  project     = var.project_id
-  region      = var.region
-  zone        = "${var.region}-a"
+  project = var.project_id
+  region  = var.region
+  zone    = "${var.region}-a"
 }
 
 provider "google-beta" {
   # credentials = file("../../json-key/gpj-bi-kenkoukazoku-946fbf7d0b2c.json")
-  project     = var.project_id
-  region      = var.region
+  project = var.project_id
+  region  = var.region
 }
 
 variable "project_id" {
