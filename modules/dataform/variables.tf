@@ -27,7 +27,7 @@ variable "dataform_secret_id" {
 }
 
 variable "GITHUB_TOKEN" {
-  type = string
+  type    = string
   default = ""
 }
 

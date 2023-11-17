@@ -27,7 +27,7 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
 }
 
 data "google_service_account" "terraform_sa" {
-    account_id = "terraform@gpj-bi-kenkoukazoku.iam.gserviceaccount.com"
+  account_id = "terraform@gpj-bi-kenkoukazoku.iam.gserviceaccount.com"
 }
 resource "google_service_account_iam_member" "github_actions" {
   service_account_id = data.google_service_account.terraform_sa.id
