@@ -1,0 +1,56 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+defaults:
+  run:
+    working-directory: ./environments/prod
+    
+jobs:
+  terraform-workflow:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+      
+    steps:
+      # Workload Identity連携
+      - uses: actions/checkout@v3
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          token_format: access_token
+          access_token_lifetime: 900s
+          workload_identity_provider: 'projects/151772412242/locations/global/workloadIdentityPools/my-pool/providers/my-pool-provider'
+          service_account: 'terraform@gpj-bi-kenkoukazoku.iam.gserviceaccount.com'
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.4
+
+      - name: Terraform Fmt
+        id: fmt
+        run: terraform fmt -check -recursive
+        continue-on-error: true
+          
+      - name: Terraform Init
+        id: init
+        run: TF_VAR_ACCESS_TOKEN=${{ steps.auth.outputs.access_token }} terraform init
+      
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+        
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false
