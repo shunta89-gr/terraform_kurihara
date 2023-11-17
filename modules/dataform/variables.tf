@@ -26,8 +26,9 @@ variable "dataform_secret_id" {
   type = string
 }
 
-variable "authentication_token" {
+variable "GITHUB_TOKEN" {
   type = string
+  default = ""
 }
 
 variable "sa_email" {

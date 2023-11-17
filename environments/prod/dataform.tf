@@ -7,6 +7,5 @@ module "dataform" {
   github_public_key    = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl"
   default_branch       = "main"
   dataform_secret_id   = "dataform-github-token"
-  authentication_token = file("../../github-token/token.txt")
   sa_email             = module.dataform_sa.sa_email
 }
