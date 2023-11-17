@@ -1,9 +1,9 @@
-name: Terraform Plan
+name: Terraform
 
 on:
   push:
     branches:
-      - feature/*
+      - main
   pull_request:
 
 defaults:
