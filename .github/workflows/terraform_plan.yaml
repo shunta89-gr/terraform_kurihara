@@ -27,7 +27,7 @@ jobs:
         with:
           token_format: access_token
           access_token_lifetime: 900s
-          workload_identity_provider: 'projects/151772412242/locations/global/workloadIdentityPools/my-pool/identityProviders/my-provider'
+          workload_identity_provider: 'projects/151772412242/locations/global/workloadIdentityPools/my-pool/identityProviders/my-pool-provider'
           service_account: 'github-actions@gpj-bi-kenkoukazoku.iam.gserviceaccount.com'
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
