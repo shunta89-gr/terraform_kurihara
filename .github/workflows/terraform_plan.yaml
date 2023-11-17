@@ -3,7 +3,8 @@ name: Terraform Plan
 on:
   push:
     branches:
-      - feature/*
+      - main
+  pull_request:
 
 defaults:
   run:
@@ -24,6 +25,8 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
+          token_format: access_token
+          access_token_lifetime: 900s
           workload_identity_provider: 'projects/151772412242/locations/global/workloadIdentityPools/my-pool/identityProviders/my-provider'
           service_account: 'github-actions@gpj-bi-kenkoukazoku.iam.gserviceaccount.com'
       - name: Setup Terraform
@@ -38,7 +41,7 @@ jobs:
           
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: TF_VAR_ACCESS_TOKEN=${{ steps.auth.outputs.access_token }} terraform init
       
       - name: Terraform Validate
         id: validate
