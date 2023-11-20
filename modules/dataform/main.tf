@@ -10,7 +10,7 @@ resource "google_secret_manager_secret" "dataform_git" {
 resource "google_secret_manager_secret_version" "dataform_git_version" {
   provider    = google-beta
   secret      = google_secret_manager_secret.dataform_git.id
-  secret_data = var.github_token
+  secret_data = var.gh_private_key
 }
 
 resource "google_secret_manager_secret_iam_member" "member" {
