@@ -18,9 +18,6 @@ jobs:
       contents: read
       pull-requests: write
 
-    env:
-      TF_VAR_github_token: ${{ secrets.TF_VAR_GITHUB_TOKEN }}
-      
     steps:
       # Workload Identity連携
       - uses: actions/checkout@v3
@@ -57,4 +54,4 @@ jobs:
         
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve -input=false -var "github_token=${{ secrets.TF_VAR_GITHUB_TOKEN }}"
