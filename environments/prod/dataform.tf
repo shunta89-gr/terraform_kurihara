@@ -8,4 +8,5 @@ module "dataform" {
   default_branch     = "main"
   dataform_secret_id = "dataform-github-token"
   sa_email           = module.dataform_sa.sa_email
+  gh_private_key     = var.gh_private_key
 }

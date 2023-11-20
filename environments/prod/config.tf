@@ -46,3 +46,8 @@ variable "region" {
   description = "デフォルトGCPリージョン"
   default     = "asia-northeast1"
 }
+
+variable "gh_private_key"  {
+  description = "GitHubの秘密鍵"
+  default     = ""
+}
