@@ -26,7 +26,7 @@ variable "dataform_secret_id" {
   type = string
 }
 
-variable "github_token" {
+variable "gh_private_key" {
   type    = string
   default = ""
 }
