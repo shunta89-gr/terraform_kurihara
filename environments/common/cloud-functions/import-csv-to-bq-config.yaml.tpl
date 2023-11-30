@@ -247,7 +247,7 @@ targets:
     - name: unit_price
       type: FLOAT
       mode: NULLABLE
-    - name: total
+    - name: subtotal
       type: FLOAT
       mode: NULLABLE
     - name: tax
