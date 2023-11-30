@@ -27,6 +27,7 @@ module "dataform_sa" {
   sa_id           = "kenkoukazoku-dataform-sa"
   sa_display_name = "Service Account for Dataform"
   sa_roles = [
+    "roles/iam.serviceAccountTokenCreator",
     "roles/bigquery.dataEditor",
     "roles/bigquery.jobUser",
     "roles/secretmanager.secretAccessor"
