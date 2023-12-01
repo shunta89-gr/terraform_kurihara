@@ -38,6 +38,8 @@ def convert_file(file_path, delimiter=','):
                 # オファーの金額文字列中のカンマを削除
                 # カンマを先に削除しておかないと後続の処理でおかしくなるので最初に処理を実行する
                 buf[13] = Util.replace_matched_string(r"([0-9]{1}),([0-9]{3})円", "\\1\\2円", buf[13])
+            elif file_name == '媒体マスタ.csv':
+                buf_list[9] = buf_list[9].replace(",", "___")
                 
             str_line = str(delimiter).join(buf)
             # 半角スペースの削除処理
@@ -66,7 +68,7 @@ def convert_file(file_path, delimiter=','):
                 # timeの文字列を%H:%M:%Sに直す
                 buf_list[7] = Util.modify_time(buf_list[7])
                 buf_list[8] = Util.modify_time(buf_list[8])
-                buf_list[9] = "\"" + buf_list[9] + "\""
+                buf_list[9] = "\"" + buf_list[9].replace("___",",") + "\""
             str_line = ",".join(buf_list)
             str_line = str_line + "\n"
             lines.append(bytes(str_line,'utf-8'))
