@@ -66,6 +66,7 @@ def convert_file(file_path, delimiter=','):
                 # timeの文字列を%H:%M:%Sに直す
                 buf_list[7] = Util.modify_time(buf_list[7])
                 buf_list[8] = Util.modify_time(buf_list[8])
+                buf_list[9] = "\"" + buf_list[9] + "\""
             str_line = ",".join(buf_list)
             str_line = str_line + "\n"
             lines.append(bytes(str_line,'utf-8'))
@@ -88,7 +89,7 @@ def output_data_to_gcs(storage_client, bucket_name,file_path, file_name, delimit
         
         return "", 200
     except Exception as e:
-            return "予期せぬエラーが発生しました: {}".format(e), 500
+            return "予期せぬエラーが発生しました({}): {}".format(file_name,e), 500
 
 #　元ファイルをGCSから削除する
 def remove_file_from_gcs(storage_client, bucket_name, blob_name, destination_blob_name):
@@ -106,7 +107,7 @@ def remove_file_from_gcs(storage_client, bucket_name, blob_name, destination_blo
         
         return "", 200
     except Exception as e:
-            return "予期せぬエラーが発生しました: {}".format(e), 500
+            return "予期せぬエラーが発生しました({}): {}".format(blob_name,e), 500
         
 
 def execute(cloud_event):
@@ -143,4 +144,4 @@ def execute(cloud_event):
         
         return "completed successfully", 200
     except Exception as e:
-        return "予期せぬエラーが発生しました: {}".format(e), 500
+        return "予期せぬエラーが発生しました({}): {}".format(file_name,e), 500
