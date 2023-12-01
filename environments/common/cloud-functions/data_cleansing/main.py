@@ -38,8 +38,7 @@ def convert_file(file_path, delimiter=','):
                 # オファーの金額文字列中のカンマを削除
                 # カンマを先に削除しておかないと後続の処理でおかしくなるので最初に処理を実行する
                 buf[13] = Util.replace_matched_string(r"([0-9]{1}),([0-9]{3})円", "\\1\\2円", buf[13])
-            elif file_name == '媒体マスタ.csv':
-                buf_list[9] = buf_list[9].replace(",", "___")
+                buf[9] = buf[9].replace(",", "___")
                 
             str_line = str(delimiter).join(buf)
             # 半角スペースの削除処理
