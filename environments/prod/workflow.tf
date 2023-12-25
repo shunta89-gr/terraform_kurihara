@@ -5,7 +5,7 @@ locals {
 module "cloud_workflow" {
   source                   = "../../modules/cloud_workflows"
   project_id               = var.project_id
-  workflow_name            = "kenkokazoku-workflow"
+  workflow_name            = "tosashimizu-workflow"
   workflow_service_account = module.worlflow_sa.sa_email
   workflow_definition = templatefile("../common/cloud-workflows/workflow.yaml.tftpl", {
     UNZIP_WORKFLOW_ID            = module.unzip_workflow.workflow_name,

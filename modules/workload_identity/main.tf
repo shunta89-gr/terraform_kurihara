@@ -27,11 +27,11 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
 }
 
 data "google_service_account" "terraform_sa" {
-  account_id = "terraform@gpj-bi-kenkoukazoku.iam.gserviceaccount.com"
+  account_id = "terraform@gpj-anarisys-tosashimizu.iam.gserviceaccount.com"
 }
 resource "google_service_account_iam_member" "github_actions" {
   service_account_id = data.google_service_account.terraform_sa.id
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.pool.name}/attribute.repository/h-products-dbd/kenkoukazoku-terraform"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.pool.name}/attribute.repository/h-products-dbd/tosashimizu-terraform"
 }
 

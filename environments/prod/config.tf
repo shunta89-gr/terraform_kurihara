@@ -8,33 +8,33 @@ terraform {
   }
   backend "gcs" {
     # TODO:本番作成時には、backend用backetを手動作成、指定が必要
-    bucket = "kenkoukazoku-tfstate"
-    # credentials = "../../json-key/gpj-bi-kenkoukazoku-946fbf7d0b2c.json"
+    bucket = "tosashimizu-tfstate"
+    credentials = "../../json-key/gpj-anarisys-tosashimizu-2c51e3758046.json"
   }
 }
 
 # プロバイダ設定
 provider "google" {
-  # credentials = file("../../json-key/gpj-bi-kenkoukazoku-946fbf7d0b2c.json")
   project = var.project_id
   region  = var.region
   zone    = "${var.region}-a"
+  credentials = "../../json-key/gpj-anarisys-tosashimizu-2c51e3758046.json"
 }
 
 provider "google-beta" {
-  # credentials = file("../../json-key/gpj-bi-kenkoukazoku-946fbf7d0b2c.json")
   project = var.project_id
   region  = var.region
+  credentials = "../../json-key/gpj-anarisys-tosashimizu-2c51e3758046.json"
 }
 
 variable "project_id" {
   description = "プロジェクトID"
-  default     = "gpj-bi-kenkoukazoku"
+  default     = "gpj-anarisys-tosashimizu"
 }
 
 variable "project_name" {
   description = "プロジェクト名"
-  default     = "kenkokazoku"
+  default     = "tosashimizu-anarisys"
 }
 
 variable "environment_name" {
