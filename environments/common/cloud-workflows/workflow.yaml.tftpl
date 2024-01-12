@@ -1,11 +1,6 @@
 # ワークフロー定義の開始
 main:
     steps:
-    # Cloud Function unzipの実行ステップ
-    - callUnzipFunction:
-        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
-        args:
-            workflow_id: ${UNZIP_WORKFLOW_ID}
     # Cloud Function データクレンジングの実行ステップ
     - callCleansingFunction:
         call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
