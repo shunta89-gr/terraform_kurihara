@@ -43,7 +43,7 @@ targets:
     - name: age
       type: INTEGER
       mode: NULLABLE
-    - name: agender
+    - name: gender
       type: STRING
       mode: NULLABLE
     - name: postal_code
@@ -154,10 +154,10 @@ targets:
       type: STRING
       mode: NULLABLE
     - name: start_date
-      type: DATE
+      type: DATETIME
       mode: NULLABLE
     - name: effective_date
-      type: DATE
+      type: DATETIME
       mode: NULLABLE
     - name: operation_user
       type: STRING
@@ -180,7 +180,7 @@ targets:
       type: STRING
       mode: NULLABLE
     - name: use_date
-      type: DATE
+      type: DATETIME
       mode: NULLABLE
     - name: use_type
       type: STRING
@@ -221,40 +221,73 @@ targets:
     - name: casher_name
       type: STRING
       mode: NULLABLE
- - path: customer_sales_master
-   fileSearchPath: "顧客売上マスタ.csv"
+ - path: sightseeing_register
+   fileSearchPath: "観光台帳*.csv"
    fieldDelimiter: ","
-   fileEncoding: "utf-8"
+   fileEncoding: "Shift_JIS"
    dataset: common_space
-   tableName: customer_sales_master
+   tableName: sightseeing_register
    isMaster: true
    schema: 
-    - name: customer_id
-      type: STRING
-      mode: REQUIRED
-    - name: total_sales
-      type: FLOAT
-      mode: NULLABLE
-    - name: total_tax
-      type: FLOAT
-      mode: NULLABLE
-    - name: total_others
-      type: FLOAT
-      mode: NULLABLE
-    - name: total_buy_count
-      type: INTEGER
-      mode: NULLABLE
-    - name: first_send_date
+    - name: member_id
       type: STRING
       mode: NULLABLE
-    - name: first_send_month
+    - name: member_type
       type: STRING
       mode: NULLABLE
-    - name: last_send_date
+    - name: member_code
       type: STRING
       mode: NULLABLE
-    - name: last_send_month
+    - name: name_sei
       type: STRING
+      mode: NULLABLE
+    - name: name_mei
+      type: STRING
+      mode: NULLABLE
+    - name: name_sei_kana
+      type: STRING
+      mode: NULLABLE
+    - name: name_mei_kana
+      type: STRING
+      mode: NULLABLE
+    - name: phone_number
+      type: STRING
+      mode: NULLABLE
+    - name: mail_address
+      type: STRING
+      mode: NULLABLE
+    - name: phone_number
+      type: STRING
+      mode: NULLABLE
+    - name: address1
+      type: STRING
+      mode: NULLABLE
+    - name: address2
+      type: STRING
+      mode: NULLABLE
+    - name: address3
+      type: STRING
+      mode: NULLABLE
+    - name: address4
+      type: STRING
+      mode: NULLABLE
+    - name: birth_date
+      type: DATE
+      mode: NULLABLE
+    - name: gender
+      type: STRING
+      mode: NULLABLE
+    - name: memo
+      type: STRING
+      mode: NULLABLE
+    - name: rank
+      type: STRING
+      mode: NULLABLE
+    - name: total_money_point
+      type: STRING
+      mode: NULLABLE
+    - name: registation_datetime
+      type: DATETIME
       mode: NULLABLE
  - path: customer_product_sales_master
    fileSearchPath: "顧客商品別売上マスタ.csv"
