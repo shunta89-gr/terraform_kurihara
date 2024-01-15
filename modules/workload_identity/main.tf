@@ -2,8 +2,8 @@ resource "google_iam_workload_identity_pool" "pool" {
   provider = google-beta
   project  = var.project_id
 
-  workload_identity_pool_id = "my-pool"
-  display_name              = "my-pool"
+  workload_identity_pool_id = "tosashimizu-pool"
+  display_name              = "tosashimizu-pool"
   description               = "Github Actionsで使用するためのPool"
 }
 
@@ -12,8 +12,8 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
   project  = var.project_id
 
   workload_identity_pool_id          = google_iam_workload_identity_pool.pool.workload_identity_pool_id
-  workload_identity_pool_provider_id = "my-pool-provider"
-  display_name                       = "my-pool-provider"
+  workload_identity_pool_provider_id = "tosashimizu-pool-provider"
+  display_name                       = "tosashimizu-pool-provider"
   description                        = "Github Actionsで使用するためのProvider"
 
   attribute_mapping = {
