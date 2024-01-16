@@ -38,7 +38,7 @@ module "data_cleansing_workflow" {
     BUCKET                 = module.data-sorce-bucket.bucket_name,
     UNZIP_ENCODING         = "CP932",
     FILE_ENCODING          = "utf-8",
-    files                  = "[\"顧客マスタ.csv\",\"商品マスタ.csv\",\"退会データ.csv\",\"顧客売上マスタ.csv\",\"顧客商品別売上マスタ.csv\",\"売掛データ.csv\",\"売掛明細データ.csv\",\"顧客ステージマスタ.csv\",\"顧客休眠マスタ.csv\",\"媒体マスタ.csv\",\"発送実績データ.csv\"]",
+    files                  = "[\"めじか個人台帳.csv\",\"観光台帳.csv\",\"発行一覧.csv\",\"利用状況一覧.csv\",\"店舗一覧.csv\",\"業種別.csv\"]",
     dollar                 = "${local.dollar}",
     val_files              = "${local.dollar}{files}"
   })
@@ -52,7 +52,7 @@ module "import_csv_to_bq_workflow" {
   workflow_definition = templatefile("../common/cloud-workflows/import_csv_to_bq_workflow.yaml.tftpl", {
     IMPORT_CSV_TO_BQ_FUNCTION_URL      = module.import_csv_to_bq.function_uri,
     IMPORT_CSV_TO_BQ_INIT_FUNCTION_URL = module.import_csv_to_bq_init.function_uri,
-    tables                             = "[\"customer_master\",\"product_master\",\"unsubscribe_info\",\"customer_sales_master\",\"customer_product_sales_master\",\"sales_data\",\"sales_meisai_data\",\"customer_stage_master\",\"dormant_customer\",\"media_master\",\"dempyo_send_data\"]",
+    tables                             = "[\"personal_register\",\"sightseeing_register\",\"publication_list\",\"usage_status_list\",\"shop_list\",\"industory_list\"]",
     dollar                             = "${local.dollar}",
     val_tables                         = "${local.dollar}{tables}"
   })
