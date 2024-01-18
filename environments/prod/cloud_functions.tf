@@ -22,7 +22,7 @@ module "import_csv_to_bq" {
   entry_point          = "execute"
   function_memory      = "512M"
   timeout_seconds      = 3600
-  max_instance_count   = 11 #クレンジングするファイル数と同じにする
+  max_instance_count   = 8 #クレンジングするファイル数と同じにする
 
   # コンフィグファイルのコピー後に実行
   depends_on = [
@@ -66,22 +66,6 @@ module "data_cleansing" {
   entry_point          = "execute"
   function_memory      = "4G"
   timeout_seconds      = 3600
-  max_instance_count   = 11 #クレンジングするファイル数と同じにする
+  max_instance_count   = 8 #クレンジングするファイル数と同じにする
 }
 
-module "unzip" {
-  source = "../../modules/cloud_functions"
-
-  source_dir           = "../common/cloud-functions/unzip"
-  output_path          = "../common/cloud-functions/unzip.zip"
-  bucket_name          = module.functions-bucket.bucket_name
-  bucket_region        = var.region
-  function_region      = var.region
-  function_name        = "unzip"
-  function_description = "zip解凍処理"
-  function_runtime     = "python311"
-  entry_point          = "execute"
-  function_memory      = "4G"
-  timeout_seconds      = 3600
-
-}
