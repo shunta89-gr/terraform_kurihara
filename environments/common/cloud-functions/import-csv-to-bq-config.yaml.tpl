@@ -20,7 +20,7 @@ targets:
       type: STRING
       mode: NULLABLE
     - name: year
-      type: DATE
+      type: STRING
       mode: NULLABLE
     - name: administration_code
       type: STRING
