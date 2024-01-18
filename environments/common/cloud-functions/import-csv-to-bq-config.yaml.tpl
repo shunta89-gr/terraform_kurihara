@@ -177,7 +177,7 @@ targets:
    fileEncoding: "utf-8"
    dataset: common_space
    tableName: usage_status_list
-   isMaster: false
+   isMaster: true
    schema: 
     - name: use_id
       type: STRING
