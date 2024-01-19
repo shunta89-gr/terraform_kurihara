@@ -34,41 +34,29 @@ def convert_file(file_path, delimiter=','):
         lines = []
         for buf in chunk.to_numpy():
             file_name = Util.get_filename_from_filepath(file_path)
-            if file_name == '媒体マスタ.csv':
-                # オファーの金額文字列中のカンマを削除
-                # カンマを先に削除しておかないと後続の処理でおかしくなるので最初に処理を実行する
-                buf[13] = Util.replace_matched_string(r"([0-9]{1}),([0-9]{3})円", "\\1\\2円", buf[13])
-                buf[9] = buf[9].replace(",", "___")
-                
-            str_line = str(delimiter).join(buf)
-            # 半角スペースの削除処理
-            str_line = Util.remove_space(str_line)
-            # 先頭が下記条件に該当したら読み飛ばす
-            if Util.search(r'^(\r\n|\n|\r|------|顧客ID|商品ID|媒体コード|伝票番号|年月|媒体ID)+', str_line) is not None:
-                continue
-            # 半角全角を統一（英数→半角に統一、カタカナ→全角に統一）
-            str_line = Util.convert_to_halfwidth(str_line)
-            
-            #各ファイル毎のクレンジング処理
-            buf_list = str_line.split(delimiter)
-            if file_name == '顧客マスタ.csv':
+                        #各ファイル毎のクレンジング処理
+            if file_name == 'めじか個人台帳.csv':
+                # 年度の作成
+                # 取り込んだ文字列から先頭４文字を抽出
+                buf[3] = Util.create_year(buf[3])
                 # 日付の文字列で/を-に変換する
-                buf_list[5] = Util.change_date_delimiter(buf_list[5])
-                buf_list[6] = Util.change_date_delimiter(buf_list[6])
-            elif file_name == '発送実績データ.csv' or file_name == '売掛データ.csv':
-                # 日付の文字列で年度が2桁になっているのを４桁に直す
-                buf_list[2] = Util.modify_year(buf_list[2])
-            elif file_name == '退会データ.csv':
-                # 日付の文字列で年度が2桁になっているのを４桁に直す
-                buf_list[1] = Util.modify_year(buf_list[1])
-            elif file_name == '媒体マスタ.csv':
+                buf[10] = Util.change_date_delimiter(buf[10])
+                buf[30] = Util.change_date_delimiter(buf[30])
+                buf[31] = Util.change_date_delimiter(buf[31])
+                # 郵便番号の‐を削除
+                buf[13] = buf[13].replace("-", "")
+            elif file_name == '観光台帳.csv':
                 # 日付の文字列で/を-に変換する
-                buf_list[6] = Util.change_date_delimiter(buf_list[6])
-                # timeの文字列を%H:%M:%Sに直す
-                buf_list[7] = Util.modify_time(buf_list[7])
-                buf_list[8] = Util.modify_time(buf_list[8])
-                buf_list[9] = "\"" + buf_list[9].replace("___",",") + "\""
-            str_line = ",".join(buf_list)
+                buf[14] = Util.change_date_delimiter(buf[14])
+                buf[19] = Util.change_date_delimiter(buf[19])
+            elif file_name == '利用状況一覧.csv' :
+                # 日付の文字列で/を-に変換する
+                buf[1] = Util.change_date_delimiter(buf[1])
+            elif file_name == '発行一覧.csv':
+                # 日付の文字列で/を-に変換する
+                buf[12] = Util.change_date_delimiter(buf[12])
+                buf[13] = Util.change_date_delimiter(buf[13])
+            str_line = ",".join(buf)
             str_line = str_line + "\n"
             lines.append(bytes(str_line,'utf-8'))
         yield lines
