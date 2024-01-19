@@ -46,6 +46,8 @@ def convert_file(file_path, delimiter=','):
                 # 郵便番号の‐を削除
                 buf[13] = buf[13].replace("-", "")
             elif file_name == '観光台帳.csv':
+                # 8桁に満たない地域通貨会員コードを0で埋めて8桁にする
+                buf[2] = buf[2].zfill(8)
                 # 日付の文字列で/を-に変換する
                 buf[14] = Util.change_date_delimiter(buf[14])
                 buf[19] = Util.change_date_delimiter(buf[19])
