@@ -376,3 +376,20 @@ targets:
     - name: others6
       type: STRING
       mode: NULLABLE
+  - path: point_type_master
+   fileSearchPath: "ポイント種別.csv"
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: common_space
+   tableName: point_type_master
+   isMaster: true
+   schema: 
+    - name: class_code
+      type: STRING
+      mode: NULLABLE
+    - name: class_name
+      type: STRING
+      mode: NULLABLE
+    - name: point_name
+      type: STRING
+      mode: NULLABLE
