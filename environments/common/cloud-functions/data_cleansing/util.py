@@ -53,3 +53,7 @@ class Util:
     @staticmethod
     def get_filename_from_filepath(file_path):
         return os.path.basename(file_path)
+    
+    @staticmethod
+    def create_year(text):
+        return text[:4]
