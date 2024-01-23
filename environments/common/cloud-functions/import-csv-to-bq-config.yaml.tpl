@@ -1,4 +1,3 @@
-targets:
 projectId: ${project_id}
 bucketName: ${bucket_name}
 backupBucketName: ${backup_bucket_name}
