@@ -24,7 +24,7 @@ module "data_cleansing_workflow" {
     BUCKET                 = module.data-sorce-bucket.bucket_name,
     UNZIP_ENCODING         = "CP932",
     FILE_ENCODING          = "utf-8",
-    files                  = "[\"めじか個人台帳.csv\",\"観光台帳.csv\",\"発行一覧.csv\",\"利用状況一覧.csv\",\"店舗一覧.csv\",\"業種別.csv\",\"utf_ken_all.csv\"]",
+    files                  = "[\"めじか個人台帳.csv\",\"観光台帳.csv\",\"発行一覧.csv\",\"利用状況一覧.csv\",\"店舗一覧.csv\",\"業種別.csv\",\"utf_ken_all.csv\",\"ポイント種別.csv\"]",
     dollar                 = "${local.dollar}",
     val_files              = "${local.dollar}{files}"
   })
@@ -38,7 +38,7 @@ module "import_csv_to_bq_workflow" {
   workflow_definition = templatefile("../common/cloud-workflows/import_csv_to_bq_workflow.yaml.tftpl", {
     IMPORT_CSV_TO_BQ_FUNCTION_URL      = module.import_csv_to_bq.function_uri,
     IMPORT_CSV_TO_BQ_INIT_FUNCTION_URL = module.import_csv_to_bq_init.function_uri,
-    tables                             = "[\"personal_register\",\"sightseeing_register\",\"publication_list\",\"usage_status_list\",\"shop_list\",\"industory_list\",\"postal_code_master\"]",
+    tables                             = "[\"personal_register\",\"sightseeing_register\",\"publication_list\",\"usage_status_list\",\"shop_list\",\"industory_list\",\"postal_code_master\",\"point_type_master\"]",
     dollar                             = "${local.dollar}",
     val_tables                         = "${local.dollar}{tables}"
   })
