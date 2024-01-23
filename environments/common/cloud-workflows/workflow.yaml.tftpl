@@ -10,6 +10,10 @@ main:
         call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
         args:
             workflow_id: ${CLEANSING_WORKFLOW_SJIS_ID}
+    - callCleansingCp932Function:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
+        args:
+            workflow_id: ${CLEANSING_WORKFLOW_CP932_ID}
     # Cloud Function import_csv_to_bqの実行ステップ
     - callImportCsvToBqFunction:
         call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
