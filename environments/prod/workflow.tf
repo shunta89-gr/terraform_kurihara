@@ -8,23 +8,9 @@ module "cloud_workflow" {
   workflow_name            = "tosashimizu-workflow"
   workflow_service_account = module.worlflow_sa.sa_email
   workflow_definition = templatefile("../common/cloud-workflows/workflow.yaml.tftpl", {
-    UNZIP_WORKFLOW_ID            = module.unzip_workflow.workflow_name,
     CLEANSING_WORKFLOW_ID        = module.data_cleansing_workflow.workflow_name,
     IMPORT_CSV_TO_BQ_WORKFLOW_ID = module.import_csv_to_bq_workflow.workflow_name,
     DATAFORM_WORKFLOW_ID         = module.dataform_workflow.workflow_name
-  })
-}
-
-module "unzip_workflow" {
-  source                   = "../../modules/cloud_workflows"
-  project_id               = var.project_id
-  workflow_name            = "unzip"
-  workflow_service_account = module.worlflow_sa.sa_email
-  workflow_definition = templatefile("../common/cloud-workflows/unzip_workflow.yaml.tftpl", {
-    UNZIP_FUNCTION_URL  = module.unzip.function_uri,
-    UNZIP_BUCKET        = module.data-sorce-bucket.bucket_name,
-    UNZIP_BACKUP_BUCKET = module.data-sorce-backup-bucket.bucket_name,
-    UNZIP_ENCODING      = "CP932"
   })
 }
 

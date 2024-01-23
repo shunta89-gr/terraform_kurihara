@@ -9,7 +9,7 @@ terraform {
   backend "gcs" {
     # TODO:本番作成時には、backend用backetを手動作成、指定が必要
     bucket = "tosashimizu-tfstate"
-    credentials = "../../json-key/gpj-anarisys-tosashimizu-2c51e3758046.json"
+    # credentials = "../../json-key/gpj-anarisys-tosashimizu-2c51e3758046.json"
   }
 }
 
@@ -18,13 +18,13 @@ provider "google" {
   project = var.project_id
   region  = var.region
   zone    = "${var.region}-a"
-  credentials = "../../json-key/gpj-anarisys-tosashimizu-2c51e3758046.json"
+  # credentials = "../../json-key/gpj-an/arisys-tosashimizu-2c51e3758046.json"
 }
 
 provider "google-beta" {
   project = var.project_id
   region  = var.region
-  credentials = "../../json-key/gpj-anarisys-tosashimizu-2c51e3758046.json"
+  # credentials = "../../json-key/gpj-anarisys-tosashimizu-2c51e3758046.json"
 }
 
 variable "project_id" {
