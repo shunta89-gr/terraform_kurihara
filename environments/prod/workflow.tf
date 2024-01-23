@@ -10,6 +10,7 @@ module "cloud_workflow" {
   workflow_definition = templatefile("../common/cloud-workflows/workflow.yaml.tftpl", {
     CLEANSING_WORKFLOW_UTF8_ID        = module.data_cleansing_workflow_utf8.workflow_name,
     CLEANSING_WORKFLOW_SJIS_ID        = module.data_cleansing_workflow_shift_jis.workflow_name,
+    CLEANSING_WORKFLOW_CP932_ID       = module.data_cleansing_workflow_cp932.workflow_name,
     IMPORT_CSV_TO_BQ_WORKFLOW_ID = module.import_csv_to_bq_workflow.workflow_name,
     DATAFORM_WORKFLOW_ID         = module.dataform_workflow.workflow_name
   })
@@ -30,6 +31,21 @@ module "data_cleansing_workflow_utf8" {
     val_files              = "${local.dollar}{files}"
   })
 }
+module "data_cleansing_workflow_cp932" {
+  source                   = "../../modules/cloud_workflows"
+  project_id               = var.project_id
+  workflow_name            = "data_cleansing_cp932"
+  workflow_service_account = module.worlflow_sa.sa_email
+  workflow_definition = templatefile("../common/cloud-workflows/data_cleansing_workflow.yaml.tftpl", {
+    CLEANSING_FUNCTION_URL = module.data_cleansing.function_uri,
+    BUCKET                 = module.data-sorce-bucket.bucket_name,
+    UNZIP_ENCODING         = "CP932",
+    FILE_ENCODING          = "CP932",
+    files                  = "[\"めじか個人台帳.csv\",\"観光台帳.csv\",\"発行一覧.csv\",\"利用状況一覧.csv\",\"店舗一覧.csv\",\"ポイント種別.csv\"]",
+    dollar                 = "${local.dollar}",
+    val_files              = "${local.dollar}{files}"
+  })
+}
 
 module "data_cleansing_workflow_shift_jis" {
   source                   = "../../modules/cloud_workflows"
@@ -41,7 +57,7 @@ module "data_cleansing_workflow_shift_jis" {
     BUCKET                 = module.data-sorce-bucket.bucket_name,
     UNZIP_ENCODING         = "CP932",
     FILE_ENCODING          = "CP932",
-    files                  = "[\"めじか個人台帳.csv\",\"観光台帳.csv\",\"発行一覧.csv\",\"利用状況一覧.csv\",\"店舗一覧.csv\",\"業種別.csv\",\"ポイント種別.csv\"]",
+    files                  = "[\"業種別.csv\"]",
     dollar                 = "${local.dollar}",
     val_files              = "${local.dollar}{files}"
   })
