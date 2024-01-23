@@ -2,10 +2,14 @@
 main:
     steps:
     # Cloud Function データクレンジングの実行ステップ
-    - callCleansingFunction:
+    - callCleansingUtf8Function:
         call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
         args:
-            workflow_id: ${CLEANSING_WORKFLOW_ID}
+            workflow_id: ${CLEANSING_WORKFLOW_UTF8_ID}
+    - callCleansingSjisFunction:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
+        args:
+            workflow_id: ${CLEANSING_WORKFLOW_SJIS_ID}
     # Cloud Function import_csv_to_bqの実行ステップ
     - callImportCsvToBqFunction:
         call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
