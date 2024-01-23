@@ -14,17 +14,33 @@ module "cloud_workflow" {
   })
 }
 
-module "data_cleansing_workflow" {
+module "data_cleansing_workflow_utf8" {
   source                   = "../../modules/cloud_workflows"
   project_id               = var.project_id
-  workflow_name            = "data_cleansing"
+  workflow_name            = "data_cleansing_utf8"
   workflow_service_account = module.worlflow_sa.sa_email
   workflow_definition = templatefile("../common/cloud-workflows/data_cleansing_workflow.yaml.tftpl", {
     CLEANSING_FUNCTION_URL = module.data_cleansing.function_uri,
     BUCKET                 = module.data-sorce-bucket.bucket_name,
     UNZIP_ENCODING         = "CP932",
     FILE_ENCODING          = "utf-8",
-    files                  = "[\"めじか個人台帳.csv\",\"観光台帳.csv\",\"発行一覧.csv\",\"利用状況一覧.csv\",\"店舗一覧.csv\",\"業種別.csv\",\"utf_ken_all.csv\",\"ポイント種別.csv\"]",
+    files                  = "[\"utf_ken_all.csv\"]",
+    dollar                 = "${local.dollar}",
+    val_files              = "${local.dollar}{files}"
+  })
+}
+
+module "data_cleansing_workflow_shift_jis" {
+  source                   = "../../modules/cloud_workflows"
+  project_id               = var.project_id
+  workflow_name            = "data_cleansing_shift_jis"
+  workflow_service_account = module.worlflow_sa.sa_email
+  workflow_definition = templatefile("../common/cloud-workflows/data_cleansing_workflow.yaml.tftpl", {
+    CLEANSING_FUNCTION_URL = module.data_cleansing.function_uri,
+    BUCKET                 = module.data-sorce-bucket.bucket_name,
+    UNZIP_ENCODING         = "CP932",
+    FILE_ENCODING          = "shift_jis",
+    files                  = "[\"めじか個人台帳.csv\",\"観光台帳.csv\",\"発行一覧.csv\",\"利用状況一覧.csv\",\"店舗一覧.csv\",\"業種別.csv\",\"ポイント種別.csv\"]",
     dollar                 = "${local.dollar}",
     val_files              = "${local.dollar}{files}"
   })
