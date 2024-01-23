@@ -292,7 +292,7 @@ targets:
     - name: registation_datetime
       type: DATETIME
       mode: NULLABLE
-  - path: shop_list
+ - path: shop_list
    fileSearchPath: "店舗一覧.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
@@ -309,7 +309,7 @@ targets:
     - name: charge_flg
       type: STRING
       mode: NULLABLE
-  - path: industory_list
+ - path: industory_list
    fileSearchPath: "業種別.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
@@ -323,7 +323,7 @@ targets:
     - name: industory_name
       type: STRING
       mode: NULLABLE
-  - path: postal_code_master
+ - path: postal_code_master
    fileSearchPath: "utf_ken_all.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
@@ -376,7 +376,7 @@ targets:
     - name: others6
       type: STRING
       mode: NULLABLE
-  - path: point_type_master
+ - path: point_type_master
    fileSearchPath: "ポイント種別.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
