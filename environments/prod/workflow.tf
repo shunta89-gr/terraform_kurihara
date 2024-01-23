@@ -40,7 +40,7 @@ module "data_cleansing_workflow_shift_jis" {
     CLEANSING_FUNCTION_URL = module.data_cleansing.function_uri,
     BUCKET                 = module.data-sorce-bucket.bucket_name,
     UNZIP_ENCODING         = "CP932",
-    FILE_ENCODING          = "shift_jis",
+    FILE_ENCODING          = "CP932",
     files                  = "[\"めじか個人台帳.csv\",\"観光台帳.csv\",\"発行一覧.csv\",\"利用状況一覧.csv\",\"店舗一覧.csv\",\"業種別.csv\",\"ポイント種別.csv\"]",
     dollar                 = "${local.dollar}",
     val_files              = "${local.dollar}{files}"
