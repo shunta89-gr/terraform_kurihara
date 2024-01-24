@@ -29,7 +29,7 @@ def download_file(storage_client, bucket_name, file_name, encoding):
 
 # ファイルの変換処理
 def convert_file(file_path, delimiter=','):
-    chunks = pd.read_csv(file_path, chunksize=chunk_size, header=None, na_filter=False, dtype=str)
+    chunks = pd.read_csv(file_path, chunksize=chunk_size, header=None, skiprows=1, na_filter=False, dtype=str)
     for chunk in chunks:
         lines = []
         for buf in chunk.to_numpy():
