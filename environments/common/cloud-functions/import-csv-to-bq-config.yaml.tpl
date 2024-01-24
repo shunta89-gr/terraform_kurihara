@@ -57,7 +57,7 @@ targets:
       mode: NULLABLE
     - name: address2
       type: STRING
-      mode: NULLABLE    
+      mode: NULLABLE
     - name: address3
       type: STRING
       mode: NULLABLE
@@ -78,7 +78,7 @@ targets:
       mode: NULLABLE
     - name: remarks2
       type: STRING
-      mode: NULLABLE    
+      mode: NULLABLE
     - name: collection_end
       type: STRING
       mode: NULLABLE
@@ -115,7 +115,7 @@ targets:
  - path: publication_list
    fileSearchPath: "発行一覧.csv"
    fieldDelimiter: ","
-   fileEncoding: "utf-8" 
+   fileEncoding: "utf-8"
    dataset: common_space
    tableName: publication_list
    isMaster: true
@@ -196,10 +196,10 @@ targets:
       mode: NULLABLE
     - name: member_id
       type: STRING
-      mode: NULLABLE    
+      mode: NULLABLE
     - name: member_code
       type: STRING
-      mode: NULLABLE    
+      mode: NULLABLE
     - name: area_name
       type: STRING
       mode: NULLABLE
@@ -208,19 +208,19 @@ targets:
       mode: NULLABLE
     - name: business_id
       type: STRING
-      mode: NULLABLE    
+      mode: NULLABLE
     - name: business_name
       type: STRING
-      mode: NULLABLE    
+      mode: NULLABLE
     - name: shop_id
       type: STRING
       mode: NULLABLE
     - name: shop_name
       type: STRING
-      mode: NULLABLE    
+      mode: NULLABLE
     - name: shop_category
       type: STRING
-      mode: NULLABLE    
+      mode: NULLABLE
     - name: casher_name
       type: STRING
       mode: NULLABLE
