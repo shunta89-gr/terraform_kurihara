@@ -54,7 +54,11 @@ def convert_file(file_path, delimiter=','):
             elif file_name == '利用状況一覧.csv' :
                 # 日付の文字列で/を-に変換する
                 buf[1] = Util.change_date_delimiter(buf[1])
+                # 金額の,を削除
+                buf[3] = buf[3].replace(",", "")
             elif file_name == '発行一覧.csv':
+                # 金額の,を削除
+                buf[11] = buf[11].replace(",", "")
                 # 日付の文字列で/を-に変換する
                 buf[12] = Util.change_date_delimiter(buf[12])
                 buf[13] = Util.change_date_delimiter(buf[13])
