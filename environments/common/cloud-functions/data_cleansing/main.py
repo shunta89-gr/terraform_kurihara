@@ -46,9 +46,9 @@ def convert_file(file_path, delimiter=','):
                 # 郵便番号の‐を削除
                 buf[13] = buf[13].replace("-", "")
                 # 改行を””で囲んで読み込まないようにする
-                buf[27] = "\"" + buf_list[27] + "\""
-                buf[29] = "\"" + buf_list[29] + "\""
-                buf[33] = "\"" + buf_list[33] + "\""
+                buf[27] = "\"" + buf[27] + "\""
+                buf[29] = "\"" + buf[29] + "\""
+                buf[33] = "\"" + buf[33] + "\""
             elif file_name == '観光台帳.csv':
                 # 8桁に満たない地域通貨会員コードを0で埋めて8桁にする
                 buf[2] = buf[2].zfill(8)
