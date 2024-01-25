@@ -8,9 +8,9 @@ module "cloud_workflow" {
   workflow_name            = "tosashimizu-workflow"
   workflow_service_account = module.worlflow_sa.sa_email
   workflow_definition = templatefile("../common/cloud-workflows/workflow.yaml.tftpl", {
-    CLEANSING_WORKFLOW_UTF8_ID        = module.data_cleansing_workflow_utf8.workflow_name,
-    CLEANSING_WORKFLOW_SJIS_ID        = module.data_cleansing_workflow_shift_jis.workflow_name,
-    CLEANSING_WORKFLOW_CP932_ID       = module.data_cleansing_workflow_cp932.workflow_name,
+    CLEANSING_WORKFLOW_UTF8_ID   = module.data_cleansing_workflow_utf8.workflow_name,
+    CLEANSING_WORKFLOW_SJIS_ID   = module.data_cleansing_workflow_shift_jis.workflow_name,
+    CLEANSING_WORKFLOW_CP932_ID  = module.data_cleansing_workflow_cp932.workflow_name,
     IMPORT_CSV_TO_BQ_WORKFLOW_ID = module.import_csv_to_bq_workflow.workflow_name,
     DATAFORM_WORKFLOW_ID         = module.dataform_workflow.workflow_name
   })
