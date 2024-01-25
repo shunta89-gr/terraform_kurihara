@@ -138,7 +138,7 @@ class RawData:
         job_config = bigquery.LoadJobConfig()
         job_config.skip_leading_rows = 0
         job_config.field_delimiter = field_delimiter
-        job_config.allowQuotedNewlines = True
+        job_config.allow_quoted_newlines = True
         job_config.source_format = bigquery.SourceFormat.CSV
 
         dataset_ref = bq_client.dataset(dataset)
