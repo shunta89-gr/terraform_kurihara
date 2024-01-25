@@ -6,7 +6,7 @@ targets:
    fileSearchPath: "めじか個人台帳.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
-   dataset: common_space
+   dataset: rawdata
    tableName: personal_register
    isMaster: true
    schema: 
@@ -116,7 +116,7 @@ targets:
    fileSearchPath: "発行一覧.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
-   dataset: common_space
+   dataset: rawdata
    tableName: publication_list
    isMaster: true
    schema: 
@@ -175,7 +175,7 @@ targets:
    fileSearchPath: "利用状況一覧.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
-   dataset: common_space
+   dataset: rawdata
    tableName: usage_status_list
    isMaster: true
    schema: 
@@ -228,7 +228,7 @@ targets:
    fileSearchPath: "観光台帳.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
-   dataset: common_space
+   dataset: rawdata
    tableName: sightseeing_register
    isMaster: true
    schema: 
@@ -296,7 +296,7 @@ targets:
    fileSearchPath: "店舗一覧.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
-   dataset: common_space
+   dataset: rawdata
    tableName: shop_list
    isMaster: true
    schema: 
@@ -313,7 +313,7 @@ targets:
    fileSearchPath: "業種別.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
-   dataset: common_space
+   dataset: rawdata
    tableName: industory_list
    isMaster: true
    schema: 
@@ -327,7 +327,7 @@ targets:
    fileSearchPath: "utf_ken_all.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
-   dataset: common_space
+   dataset: rawdata
    tableName: postal_code_master
    isMaster: true
    schema: 
@@ -380,7 +380,7 @@ targets:
    fileSearchPath: "ポイント種別.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
-   dataset: common_space
+   dataset: rawdata
    tableName: point_type_master
    isMaster: true
    schema: 
