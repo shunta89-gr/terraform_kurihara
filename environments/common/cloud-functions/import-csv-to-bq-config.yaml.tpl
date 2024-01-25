@@ -384,12 +384,41 @@ targets:
    tableName: point_type_master
    isMaster: true
    schema: 
-    - name: class_code
+    - name: large_class_code
       type: STRING
       mode: NULLABLE
-    - name: class_name
+    - name: large_class_name
+      type: STRING
+      mode: NULLABLE
+    - name: medium_class_code
+      type: STRING
+      mode: NULLABLE
+    - name: medium_class_name
       type: STRING
       mode: NULLABLE
     - name: point_name
+      type: STRING
+      mode: NULLABLE
+    - name: point_display_name
+      type: STRING
+      mode: NULLABLE
+ - path: area_classification_master
+   fileSearchPath: "町域分類.csv"
+   fieldDelimiter: ","
+   fileEncoding: "utf-8"
+   dataset: rawdata
+   tableName: area_classification_master
+   isMaster: true
+   schema: 
+    - name: postal_code
+      type: STRING
+      mode: NULLABLE
+    - name: area_name
+      type: STRING
+      mode: NULLABLE
+    - name: classification_code
+      type: STRING
+      mode: NULLABLE
+    - name: classification_name
       type: STRING
       mode: NULLABLE
