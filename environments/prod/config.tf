@@ -47,7 +47,7 @@ variable "region" {
   default     = "asia-northeast1"
 }
 
-variable "gh_private_key"  {
+variable "gh_private_key" {
   description = "GitHubの秘密鍵"
   default     = ""
 }
