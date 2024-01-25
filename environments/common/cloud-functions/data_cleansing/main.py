@@ -45,12 +45,18 @@ def convert_file(file_path, delimiter=','):
                 buf[31] = Util.change_date_delimiter(buf[31])
                 # 郵便番号の‐を削除
                 buf[13] = buf[13].replace("-", "")
+                # 改行を””で囲んで読み込まないようにする
+                buf[27] = "\"" + buf_list[27] + "\""
+                buf[29] = "\"" + buf_list[29] + "\""
+                buf[33] = "\"" + buf_list[33] + "\""
             elif file_name == '観光台帳.csv':
                 # 8桁に満たない地域通貨会員コードを0で埋めて8桁にする
                 buf[2] = buf[2].zfill(8)
                 # 日付の文字列で/を-に変換する
                 buf[14] = Util.change_date_delimiter(buf[14])
                 buf[19] = Util.change_date_delimiter(buf[19])
+                # datetime型で取り込めるように秒数表示できていない箇所に":00"を追加
+                buf[19] = Util.join_seconds(buf[19])
             elif file_name == '利用状況一覧.csv' :
                 # 日付の文字列で/を-に変換する
                 buf[1] = Util.change_date_delimiter(buf[1])
