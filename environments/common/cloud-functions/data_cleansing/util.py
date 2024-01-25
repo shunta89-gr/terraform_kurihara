@@ -57,3 +57,11 @@ class Util:
     @staticmethod
     def create_year(text):
         return text[:4]
+    
+    @staticmethod
+    def join_seconds(text):
+        delimiter_count = text.count(":")
+        if delimiter_count == 1:
+            return text + ":00"
+        else:
+            return text
