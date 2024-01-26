@@ -62,12 +62,38 @@ def convert_file(file_path, delimiter=','):
                 buf[1] = Util.change_date_delimiter(buf[1])
                 # 金額の,を削除
                 buf[3] = buf[3].replace(",", "")
+                # 店舗名のクレンジング処理
+                # 半角・全角スペースを削除
+                buf[12] = buf[12].replace(" ", "")
+                buf[12] = buf[12].replace("　", "")
+                #半角全角を統一（英数→半角に統一、カタカナ→全角に統一)
+                buf[12] = Util.convert_to_halfwidth(buf[12])
             elif file_name == '発行一覧.csv':
                 # 金額の,を削除
                 buf[11] = buf[11].replace(",", "")
                 # 日付の文字列で/を-に変換する
                 buf[12] = Util.change_date_delimiter(buf[12])
                 buf[13] = Util.change_date_delimiter(buf[13])
+                # 店舗名のクレンジング処理
+                # 半角・全角スペースを削除
+                buf[9] = buf[9].replace(" ", "")
+                buf[9] = buf[9].replace("　", "")
+                #半角全角を統一（英数→半角に統一、カタカナ→全角に統一)
+                buf[9] = Util.convert_to_halfwidth(buf[9])
+                # 操作ユーザのクレンジング処理
+                # 半角・全角スペースを削除
+                buf[14] = buf[14].replace(" ", "")
+                buf[14] = buf[14].replace("　", "")
+                #半角全角を統一（英数→半角に統一、カタカナ→全角に統一)
+                buf[14] = Util.convert_to_halfwidth(buf[14])
+            elif file_name == '店舗一覧.csv':
+                # 店舗名のクレンジング処理
+                # 半角・全角スペースを削除
+                buf[0] = buf[0].replace(" ", "")
+                buf[0] = buf[0].replace("　", "")
+                #半角全角を統一（英数→半角に統一、カタカナ→全角に統一)
+                buf[0] = Util.convert_to_halfwidth(buf[0])
+                
             str_line = ",".join(buf)
             str_line = str_line + "\n"
             lines.append(bytes(str_line,'utf-8'))
