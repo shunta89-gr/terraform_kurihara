@@ -86,6 +86,8 @@ def convert_file(file_path, delimiter=','):
                 buf[14] = buf[14].replace("　", "")
                 #半角全角を統一（英数→半角に統一、カタカナ→全角に統一)
                 buf[14] = Util.convert_to_halfwidth(buf[14])
+                #備考を””で囲む
+                buf[15] = "\"" + buf[15] + "\""
             elif file_name == '店舗一覧.csv':
                 # 店舗名のクレンジング処理
                 # 半角・全角スペースを削除
