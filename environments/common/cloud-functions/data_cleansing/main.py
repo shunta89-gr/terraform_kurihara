@@ -60,6 +60,7 @@ def convert_file(file_path, delimiter=','):
             elif file_name == '利用状況一覧.csv' :
                 # 日付の文字列で/を-に変換する
                 buf[1] = Util.change_date_delimiter(buf[1])
+                buf[1] = Util.modify_datetime(buf[1])
                 # 金額の,を削除
                 buf[3] = buf[3].replace(",", "")
                 # 店舗名のクレンジング処理
