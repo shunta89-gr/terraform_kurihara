@@ -41,6 +41,15 @@ class Util:
             return "00:00:00"
         
         return tt.strftime("%H:%M:%S")
+    
+    @staticmethod
+    def modify_datetime(text):
+        try:
+            tt = datetime.strptime(text,"%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            tt = datetime.strptime(text,"%Y-%m-%d %H:%M")
+        
+        return tt.strftime("%Y-%m-%d %H:%M:%S")
 
     @staticmethod
     def replace_matched_string(pattern, replacement, text):
