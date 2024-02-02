@@ -32,4 +32,6 @@ resource "google_dataform_repository" "repository" {
       host_public_key                 = var.github_public_key
     }
   }
+  
+  service_account = var.sa_email
 }
