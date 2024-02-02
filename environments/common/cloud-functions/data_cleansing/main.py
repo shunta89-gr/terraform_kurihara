@@ -63,6 +63,8 @@ def convert_file(file_path, delimiter=','):
                 buf[1] = Util.modify_datetime(buf[1])
                 # 金額の,を削除
                 buf[3] = buf[3].replace(",", "")
+                # マネー・ポイント名を””で囲む
+                buf[8] = "\"" + buf[8] + "\""
                 # 店舗名のクレンジング処理
                 # 半角・全角スペースを削除
                 buf[12] = buf[12].replace(" ", "")
