@@ -74,3 +74,9 @@ class Util:
             return text + ":00"
         else:
             return text
+    
+    @staticmethod
+    def excel_date(num):
+        d = datetime(1899, 12, 30) + timedelta(days=num)
+        return d.strftime('%Y-%m-%d %H:%M:%S')
+
