@@ -77,6 +77,9 @@ class Util:
     
     @staticmethod
     def excel_date(num):
-        d = datetime(1899, 12, 30) + timedelta(days=num)
-        return d.strftime('%Y-%m-%d %H:%M:%S')
-
+        
+        if not num:
+            return ""
+        else:
+            d = datetime(1899, 12, 30) + timedelta(days=int(num))
+            return d.strftime('%Y-%m-%d %H:%M:%S')

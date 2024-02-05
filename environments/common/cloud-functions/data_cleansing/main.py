@@ -38,12 +38,12 @@ def convert_file(file_path, delimiter=','):
             if file_name == 'めじか個人台帳.csv':
                 # 年度の作成
                 # 取り込んだ文字列から先頭４文字を抽出
-                nendo = Util.excel_date(int(buf[3]))
+                nendo = Util.excel_date(buf[3])
                 buf[3] = Util.create_year(nendo)
                 # 日付の文字列で/を-に変換する
-                buf[10] = Util.excel_date(int(buf[10]))
-                buf[30] = Util.excel_date(int(buf[30]))
-                buf[31] = Util.excel_date(int(buf[31]))
+                buf[10] = Util.excel_date(buf[10])
+                buf[30] = Util.excel_date(buf[30])
+                buf[31] = Util.excel_date(buf[31])
                 # 郵便番号の‐を削除
                 buf[13] = buf[13].replace("-", "")
                 # 改行を””で囲んで読み込まないようにする
