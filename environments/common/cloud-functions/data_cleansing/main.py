@@ -39,21 +39,21 @@ def convert_file(file_path, delimiter=','):
                 # 年度の作成
                 # 取り込んだ文字列から先頭４文字を抽出
                 if buf[3].isdecimal():
-                    nendo = Util.excel_date(buf[3])
+                    nendo = Util.excel_date(buf[3],'%Y-%m-%d')
                     buf[3] = Util.create_year(nendo)
                 else:
                     buf[3] = Util.create_year(buf[3])
                 # 日付の文字列で/を-に変換する
                 if buf[10].isdecimal():
-                    buf[10] = Util.excel_date(buf[10])
+                    buf[10] = Util.excel_date(buf[10],'%Y-%m-%d')
                 else:
                     buf[10] = Util.change_date_delimiter(buf[10])
                 if buf[30].isdecimal():
-                    buf[30] = Util.excel_date(buf[30])
+                    buf[30] = Util.excel_date(buf[30],'%Y-%m-%d')
                 else:
                     buf[30] = Util.change_date_delimiter(buf[30])
                 if buf[31].isdecimal():
-                    buf[31] = Util.excel_date(buf[31])
+                    buf[31] = Util.excel_date(buf[31],'%Y-%m-%d')
                 else:
                     buf[31] = Util.change_date_delimiter(buf[31])
                 # 郵便番号の‐を削除
