@@ -76,10 +76,10 @@ class Util:
             return text
     
     @staticmethod
-    def excel_date(num):
+    def excel_date(num,dateformat):
         
         if not num:
             return ""
         else:
             d = datetime(1899, 12, 30) + timedelta(days=int(num))
-            return d.strftime('%Y-%m-%d %H:%M:%S')
+            return d.strftime(dateformat)
