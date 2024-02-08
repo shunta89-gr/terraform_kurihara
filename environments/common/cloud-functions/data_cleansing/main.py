@@ -111,6 +111,10 @@ def convert_file(file_path, delimiter=','):
                 buf[0] = buf[0].replace("　", "")
                 #半角全角を統一（英数→半角に統一、カタカナ→全角に統一)
                 buf[0] = Util.convert_to_halfwidth(buf[0])
+                buf[1] = buf[1].replace(" ", "")
+                buf[1] = buf[1].replace("　", "")
+                #半角全角を統一（英数→半角に統一、カタカナ→全角に統一)
+                buf[1] = Util.convert_to_halfwidth(buf[1])
                 
             str_line = ",".join(buf)
             str_line = str_line + "\n"
