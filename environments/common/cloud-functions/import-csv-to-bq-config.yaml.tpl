@@ -303,6 +303,9 @@ targets:
     - name: shop_name
       type: STRING
       mode: NULLABLE
+    - name: summary_shop_name
+      type: STRING
+      mode: NULLABLE
     - name: industory_code
       type: STRING
       mode: NULLABLE
