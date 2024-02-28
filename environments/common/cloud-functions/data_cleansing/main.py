@@ -35,7 +35,7 @@ def convert_file(file_path, delimiter=','):
         for buf in chunk.to_numpy():
             file_name = Util.get_filename_from_filepath(file_path)
                         #各ファイル毎のクレンジング処理
-            if file_name == 'めじか個人台帳.csv':
+            if file_name == 'kojin_daicho.csv':
                 # 年度の作成
                 # 取り込んだ文字列から先頭４文字を抽出
                 if buf[3].isdecimal():
@@ -62,7 +62,12 @@ def convert_file(file_path, delimiter=','):
                 buf[27] = "\"" + buf[27] + "\""
                 buf[29] = "\"" + buf[29] + "\""
                 buf[33] = "\"" + buf[33] + "\""
-            elif file_name == '観光台帳.csv':
+                #地域通貨会員コードを8桁に満たない場合は0で埋める
+                if buf[24]:
+                    buf[24] = buf[24].zfill(8)
+                if buf[25]:
+                    buf[25] = buf[25].zfill(8)
+            elif file_name == 'kanko_daicho.csv':
                 # 8桁に満たない地域通貨会員コードを0で埋めて8桁にする
                 buf[2] = buf[2].zfill(8)
                 # 日付の文字列で/を-に変換する
@@ -70,7 +75,7 @@ def convert_file(file_path, delimiter=','):
                 buf[19] = Util.change_date_delimiter(buf[19])
                 # datetime型で取り込めるように秒数表示できていない箇所に":00"を追加
                 buf[19] = Util.join_seconds(buf[19])
-            elif file_name == '利用状況一覧.csv' :
+            elif file_name == 'riyo_ichiran.csv' :
                 # 日付の文字列で/を-に変換する
                 buf[1] = Util.change_date_delimiter(buf[1])
                 buf[1] = Util.modify_datetime(buf[1])
@@ -84,7 +89,7 @@ def convert_file(file_path, delimiter=','):
                 buf[12] = buf[12].replace("　", "")
                 #半角全角を統一（英数→半角に統一、カタカナ→全角に統一)
                 buf[12] = Util.convert_to_halfwidth(buf[12])
-            elif file_name == '発行一覧.csv':
+            elif file_name == 'hakko_ichiran.csv':
                 # 金額の,を削除
                 buf[11] = buf[11].replace(",", "")
                 # 日付の文字列で/を-に変換する
@@ -104,7 +109,7 @@ def convert_file(file_path, delimiter=','):
                 buf[14] = Util.convert_to_halfwidth(buf[14])
                 #備考を””で囲む
                 buf[15] = "\"" + buf[15] + "\""
-            elif file_name == '店舗一覧.csv':
+            elif file_name == 'tenpo_ichiran.csv':
                 # 店舗名のクレンジング処理
                 # 半角・全角スペースを削除
                 buf[0] = buf[0].replace(" ", "")

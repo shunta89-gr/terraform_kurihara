@@ -3,7 +3,7 @@ bucketName: ${bucket_name}
 backupBucketName: ${backup_bucket_name}
 targets:
  - path: personal_register
-   fileSearchPath: "めじか個人台帳.csv"
+   fileSearchPath: "kojin_daicho.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: rawdata
@@ -113,7 +113,7 @@ targets:
       type: STRING
       mode: NULLABLE
  - path: publication_list
-   fileSearchPath: "発行一覧.csv"
+   fileSearchPath: "hakko_ichiran.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: rawdata
@@ -172,7 +172,7 @@ targets:
       type: STRING
       mode: NULLABLE
  - path: usage_status_list
-   fileSearchPath: "利用状況一覧.csv"
+   fileSearchPath: "riyo_ichiran.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: rawdata
@@ -225,7 +225,7 @@ targets:
       type: STRING
       mode: NULLABLE
  - path: sightseeing_register
-   fileSearchPath: "観光台帳.csv"
+   fileSearchPath: "kanko_daicho.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: rawdata
@@ -293,7 +293,7 @@ targets:
       type: DATETIME
       mode: NULLABLE
  - path: shop_list
-   fileSearchPath: "店舗一覧.csv"
+   fileSearchPath: "tenpo_ichiran.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: rawdata
@@ -313,7 +313,7 @@ targets:
       type: STRING
       mode: NULLABLE
  - path: industory_list
-   fileSearchPath: "業種別.csv"
+   fileSearchPath: "gyosyu_syubetsu.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: rawdata
@@ -380,7 +380,7 @@ targets:
       type: STRING
       mode: NULLABLE
  - path: point_type_master
-   fileSearchPath: "ポイント種別.csv"
+   fileSearchPath: "point_syubetsu.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: rawdata
@@ -406,7 +406,7 @@ targets:
       type: STRING
       mode: NULLABLE
  - path: area_classification_master
-   fileSearchPath: "町域分類.csv"
+   fileSearchPath: "area_bunrui.csv"
    fieldDelimiter: ","
    fileEncoding: "utf-8"
    dataset: rawdata
