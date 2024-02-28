@@ -41,7 +41,7 @@ module "data_cleansing_workflow_cp932" {
     BUCKET                 = module.data-sorce-bucket.bucket_name,
     UNZIP_ENCODING         = "CP932",
     FILE_ENCODING          = "CP932",
-    files                  = "[\"めじか個人台帳.csv\",\"観光台帳.csv\",\"発行一覧.csv\",\"利用状況一覧.csv\",\"店舗一覧.csv\",\"ポイント種別.csv\",\"町域分類.csv\"]",
+    files                  = "[\"kojin_daicho.csv\",\"kanko_daicho.csv\",\"hakko_ichiran.csv\",\"riyo_ichiran.csv\",\"tenpo_ichiran.csv\",\"point_syubetsu.csv\",\"area_bunrui.csv\"]",
     dollar                 = "${local.dollar}",
     val_files              = "${local.dollar}{files}"
   })
@@ -57,7 +57,7 @@ module "data_cleansing_workflow_shift_jis" {
     BUCKET                 = module.data-sorce-bucket.bucket_name,
     UNZIP_ENCODING         = "CP932",
     FILE_ENCODING          = "shift_jis",
-    files                  = "[\"業種別.csv\"]",
+    files                  = "[\"gyosyu_syubetsu.csv\"]",
     dollar                 = "${local.dollar}",
     val_files              = "${local.dollar}{files}"
   })
