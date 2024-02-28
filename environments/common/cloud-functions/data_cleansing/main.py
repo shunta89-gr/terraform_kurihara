@@ -62,6 +62,11 @@ def convert_file(file_path, delimiter=','):
                 buf[27] = "\"" + buf[27] + "\""
                 buf[29] = "\"" + buf[29] + "\""
                 buf[33] = "\"" + buf[33] + "\""
+                #地域通貨会員コードを8桁に満たない場合は0で埋める
+                if buf[24]:
+                    buf[24] = buf[24].zfill(8)
+                if buf[25]:
+                    buf[25] = buf[25].zfill(8)
             elif file_name == '観光台帳.csv':
                 # 8桁に満たない地域通貨会員コードを0で埋めて8桁にする
                 buf[2] = buf[2].zfill(8)
