@@ -28,9 +28,9 @@ jobs:
           token_format: access_token
           access_token_lifetime: 900s
           # TODO: workload_identity_providerを自分の環境に合わせて変更する
-          workload_identity_provider: 'projects/320963110274/locations/global/workloadIdentityPools/tosashimizu-pool/providers/tosashimizu-pool-provider'
+          workload_identity_provider: 'projects/xxxxxxx/locations/global/workloadIdentityPools/tosxxxx-pool/providers/xxxxx-pool-provider'
           # TODO: service_accountを自分の環境に合わせて変更する
-          service_account: 'terraform@gpj-anarisys-tosashimizu.iam.gserviceaccount.com'
+          service_account: 'terraform@gxxxxxxx.iam.gserviceaccount.com'
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
