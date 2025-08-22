@@ -5,6 +5,7 @@ locals {
 module "cloud_workflow" {
   source                   = "../../modules/cloud_workflows"
   project_id               = var.project_id
+  # TODO: workflow_nameを自分の環境に合わせて変更する
   workflow_name            = "tosashimizu-workflow"
   workflow_service_account = module.worlflow_sa.sa_email
   workflow_definition = templatefile("../common/cloud-workflows/workflow.yaml.tftpl", {
@@ -15,7 +16,7 @@ module "cloud_workflow" {
     DATAFORM_WORKFLOW_ID         = module.dataform_workflow.workflow_name
   })
 }
-
+# TODO: 今回対象となるファイルに合わせて、utf08,cp932,shift_jisを適宜修正する。使用しないものは削除して良い
 module "data_cleansing_workflow_utf8" {
   source                   = "../../modules/cloud_workflows"
   project_id               = var.project_id
@@ -68,6 +69,7 @@ module "import_csv_to_bq_workflow" {
   project_id               = var.project_id
   workflow_name            = "import_csv_to_bq"
   workflow_service_account = module.worlflow_sa.sa_email
+  # TODO: tablesを自分の環境に合わせて変更する
   workflow_definition = templatefile("../common/cloud-workflows/import_csv_to_bq_workflow.yaml.tftpl", {
     IMPORT_CSV_TO_BQ_FUNCTION_URL      = module.import_csv_to_bq.function_uri,
     IMPORT_CSV_TO_BQ_INIT_FUNCTION_URL = module.import_csv_to_bq_init.function_uri,

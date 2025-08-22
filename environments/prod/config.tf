@@ -27,11 +27,13 @@ provider "google-beta" {
   # credentials = "../../json-key/gpj-anarisys-tosashimizu-2c51e3758046.json"
 }
 
+# TODO: プロジェクトIDを自分の環境に合わせて変更する
 variable "project_id" {
   description = "プロジェクトID"
   default     = "gpj-anarisys-tosashimizu"
 }
 
+# TODO: プロジェクト名を自分の環境に合わせて変更する
 variable "project_name" {
   description = "プロジェクト名"
   default     = "tosashimizu-anarisys"
