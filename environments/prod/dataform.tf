@@ -1,6 +1,7 @@
 module "dataform" {
   source             = "../../modules/dataform"
   project_id         = var.project_id
+  project_number     = var.project_number
   location           = var.region
   # TODO: dataform_nameを自分の環境に合わせて変更する
   dataform_name      = "tosashimizu-anarisys"

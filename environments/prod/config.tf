@@ -33,6 +33,13 @@ variable "project_id" {
   default     = "gpj-anarisys-tosashimizu"
 }
 
+# TODO: プロジェクト番号を自分の環境に合わせて変更する
+variable "project_number" {
+  description = "プロジェクトID"
+  default     = ０
+}
+
+
 # TODO: プロジェクト名を自分の環境に合わせて変更する
 variable "project_name" {
   description = "プロジェクト名"

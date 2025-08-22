@@ -35,3 +35,16 @@ resource "google_dataform_repository" "repository" {
   
   service_account = var.sa_email
 }
+
+resource "google_secret_manager_secret_iam_member" "dataform_default_sa" {
+  provider  = google-beta
+  secret_id = google_secret_manager_secret.dataform_git.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:service-${var.project_id}@gcp-sa-dataform.iam.gserviceaccount.com"
+}
+
+resource "google_service_account_iam_member" "dataform_token_creator" {
+  service_account_id = "projects/${var.project_id}/serviceAccounts/${var.sa_email}"
+  role               = "roles/iam.serviceAccountTokenCreator"
+  member             = "serviceAccount:service-${var.project_number}@gcp-sa-dataform.iam.gserviceaccount.com"
+}
