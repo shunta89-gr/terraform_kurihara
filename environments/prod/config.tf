@@ -8,7 +8,7 @@ terraform {
   }
   backend "gcs" {
     # TODO:本番作成時には、backend用backetを手動作成、指定が必要
-    bucket = "kurihara-tfstate"
+    bucket = "tf_kurihara_buchet"
     # credentials = "../../json-key/gpj-anarisys-tosashimizu-2c51e3758046.json"
   }
 }
@@ -30,7 +30,7 @@ provider "google-beta" {
 # TODO: プロジェクトIDを自分の環境に合わせて変更する
 variable "project_id" {
   description = "プロジェクトID"
-  default     = "gpj-gd3-dev-kurihar"
+  default     = "gpj-gd3-dev-kurihara"
 }
 
 # TODO: プロジェクト番号を自分の環境に合わせて変更する
