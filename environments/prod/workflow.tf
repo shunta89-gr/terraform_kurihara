@@ -6,7 +6,7 @@ module "cloud_workflow" {
   source                   = "../../modules/cloud_workflows"
   project_id               = var.project_id
   # TODO: workflow_nameを自分の環境に合わせて変更する
-  workflow_name            = "tosashimizu-workflow"
+  workflow_name            = "kurihara-workflow"
   workflow_service_account = module.worlflow_sa.sa_email
   workflow_definition = templatefile("../common/cloud-workflows/workflow.yaml.tftpl", {
     CLEANSING_WORKFLOW_UTF8_ID   = module.data_cleansing_workflow_utf8.workflow_name,
