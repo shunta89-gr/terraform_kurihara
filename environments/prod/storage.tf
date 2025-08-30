@@ -1,7 +1,7 @@
 module "data-sorce-bucket" {
   source        = "../../modules/cloud_storage"
   # TODO: storage_nameを自分の環境に合わせて変更する
-  storage_name  = "tosashimizu-rawdata"
+  storage_name  = "kurihara-rawdata"
   location      = "asia-northeast1"
   force_destroy = false
 }
@@ -9,7 +9,7 @@ module "data-sorce-bucket" {
 module "data-sorce-backup-bucket" {
   source        = "../../modules/cloud_storage"
   # TODO: storage_nameを自分の環境に合わせて変更する
-  storage_name  = "tosashimizu-rawdata-backup"
+  storage_name  = "kurihara-rawdata-backup"
   location      = "asia-northeast1"
   force_destroy = false
 }
@@ -17,7 +17,7 @@ module "data-sorce-backup-bucket" {
 module "functions-bucket" {
   source        = "../../modules/cloud_storage"
   # TODO: storage_nameを自分の環境に合わせて変更する
-  storage_name  = "tosashimizu-functions"
+  storage_name  = "kurihara-functions"
   location      = "asia-northeast1"
   force_destroy = false
 }
