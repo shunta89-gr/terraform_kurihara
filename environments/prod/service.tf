@@ -13,5 +13,6 @@ module "google_project_service" {
     "cloudbuild.googleapis.com",
     "iamcredentials.googleapis.com",
     "sts.googleapis.com",
+    "dataform.googleapis.com"
   ]
 }
