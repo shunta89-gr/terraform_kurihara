@@ -46,5 +46,5 @@ resource "google_secret_manager_secret_iam_member" "dataform_default_sa" {
 resource "google_service_account_iam_member" "dataform_token_creator" {
   service_account_id = "projects/${var.project_id}/serviceAccounts/${var.sa_email}"
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "serviceAccount:service-${var.project_id}@gcp-sa-dataform.iam.gserviceaccount.com"
+  member             = "serviceAccount:service-${var.project_number}@gcp-sa-dataform.iam.gserviceaccount.com"
 }
