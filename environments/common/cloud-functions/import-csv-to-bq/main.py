@@ -1,9 +1,11 @@
 from rawdata.rawdata import RawData
+import functions_framework
 
-def execute(cloud_event):
+@functions_framework.http
+def execute(request):
     #パラメータよりbucket_name, file_name, file-encodingを取得する
-    request_args = cloud_event.args
-    request_json = cloud_event.get_json(silent=True)
+    request_args = request.args
+    request_json = request.get_json(silent=True)
     target_date = ''
     if 'target_table' in request_args:
         target_table = request_args.get('target_table')
@@ -25,7 +27,8 @@ def execute(cloud_event):
     except Exception as e:
         return "予期せぬエラーが発生しました: {}".format(e), 500
 
-def init(cloud_event):
+@functions_framework.http
+def init(request):
     try:
         rawdata = RawData()
         rawdata.make_dataset()

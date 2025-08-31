@@ -3,6 +3,7 @@ import glob
 import os
 import zipfile
 from datetime import datetime, timedelta, timezone
+import functions_framework
 
 def gcs_search(storage_client, bucket_name):
     blobs = storage_client.list_blobs(bucket_name)
@@ -60,10 +61,11 @@ def buckup_from_gcs(storage_client, bucket_name, file_name, backup_bucket_name):
     )
     source_bucket.delete_blob(file_name)
     
-def execute(cloud_event):
+@functions_framework.http
+def execute(request):
     #パラメータよりbucket_name
-    request_args = cloud_event.args
-    request_json = cloud_event.get_json(silent=True)
+    request_args = request.args
+    request_json = request.get_json(silent=True)
     file_encoding = 'utf-8'
     zip_encoding = 'utf-8'
     if request_args and 'bucket_name' in request_args and 'backup_bucket_name' in request_args:

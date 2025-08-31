@@ -164,10 +164,13 @@ def remove_file_from_gcs(storage_client, bucket_name, blob_name, destination_blo
             return "予期せぬエラーが発生しました({}): {}".format(blob_name,e), 500
         
 
-def execute(cloud_event):
+import functions_framework
+
+@functions_framework.http
+def execute(request):
     #パラメータよりbucket_name, file_name, file-encodingを取得する
-    request_args = cloud_event.args
-    request_json = cloud_event.get_json(silent=True)
+    request_args = request.args
+    request_json = request.get_json(silent=True)
     file_encoding = 'utf-8'
     if request_args and 'bucket_name' in request_args and 'file_name' in request_args:
         bucket_name = request_args.get('bucket_name')
